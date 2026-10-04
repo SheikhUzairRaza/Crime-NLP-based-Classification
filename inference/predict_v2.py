@@ -120,7 +120,7 @@ class DistilBertPredictor:
             truncation=True,
             max_length=128
         )
-
+        inputs.pop("token_type_ids", None)
         # Forward pass without gradients
         with torch.no_grad():
             outputs = self.model(**inputs)
