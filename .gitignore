@@ -1,0 +1,8 @@
+/backend/node_modules
+data/train.csv
+data/hf_crime_raw.csv
+data/*.zip
+*.sqlite
+backend/data/*.db
+__pycache__/
+*.pyc
