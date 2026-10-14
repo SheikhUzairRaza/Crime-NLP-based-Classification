@@ -16,14 +16,10 @@ app.use(cors());
 app.use(express.json());
 
 // -----------------------------------------------------------------------------
-// Health Check Endpoints
+// Health Check Endpoint
 // -----------------------------------------------------------------------------
 app.get('/api/v1/health', (req, res) => {
   return res.status(200).json({ status: 'ok', version: 'v1' });
-});
-// Alias for backward compatibility
-app.get('/api/health', (req, res) => {
-  return res.status(200).json({ status: 'ok' });
 });
 
 // -----------------------------------------------------------------------------
@@ -32,11 +28,6 @@ app.get('/api/health', (req, res) => {
 app.use('/api/v1/reports', reportRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/admin', authMiddleware, adminRoutes);
-
-// Backward Compatibility Aliases (/api/...)
-app.use('/api/reports', reportRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/admin', authMiddleware, adminRoutes);
 
 // -----------------------------------------------------------------------------
 // Centralized Error Handling Middleware (must be after routes)
