@@ -26,6 +26,10 @@ export class Officer extends Model {
       foreignKey: 'officer_id',
       as: 'reports'
     });
+    this.hasMany(models.RefreshToken, {
+      foreignKey: 'officer_id',
+      as: 'refreshTokens'
+    });
   }
 }
 
