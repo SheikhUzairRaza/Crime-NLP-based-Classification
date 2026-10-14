@@ -37,25 +37,49 @@ export const createReport = async (reportData) => {
 };
 
 /**
- * Retrieves a report by tracking ID with assigned officer details
- * @param {string} trackingId
- * @returns {Promise<Report|null>}
+ * Public Citizen Tracking Service:
+ * Returns ONLY tracking_id, status, predicted_category, created_at, safety_advisory,
+ * and officer's name. Private fields (citizen_name, contact_number, officer_notes, top_candidates)
+ * are strictly excluded.
+ * 
+ * @param {string} trackingId - Public tracking ID
+ * @returns {Promise<object|null>} Filtered tracking data or null if not found
  */
-export const getReportByTrackingId = async (trackingId) => {
-  return Report.findOne({
+export const getReportTracking = async (trackingId) => {
+  const report = await Report.findOne({
     where: { tracking_id: trackingId },
+    attributes: [
+      'tracking_id',
+      'status',
+      'predicted_category',
+      'created_at',
+      'safety_advisory'
+    ],
     include: [
       {
         model: Officer,
         as: 'officer',
-        attributes: ['id', 'name', 'email', 'role']
+        attributes: ['name']
       }
     ]
   });
+
+  if (!report) {
+    return null;
+  }
+
+  return {
+    tracking_id: report.tracking_id,
+    status: report.status,
+    predicted_category: report.predicted_category,
+    created_at: report.created_at,
+    safety_advisory: report.safety_advisory,
+    assigned_officer: report.officer ? report.officer.name : null
+  };
 };
 
 /**
- * Retrieves reports with filtering
+ * Retrieves reports with filtering (Admin / Internal use)
  * @param {object} filters
  * @returns {Promise<{rows: Report[], count: number}>}
  */
@@ -85,6 +109,6 @@ export const getReports = async (filters = {}) => {
 
 export default {
   createReport,
-  getReportByTrackingId,
+  getReportTracking,
   getReports
 };

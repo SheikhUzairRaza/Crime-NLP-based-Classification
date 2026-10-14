@@ -37,20 +37,21 @@ export const createReport = async (req, res, next) => {
 
 /**
  * Controller: Handles GET /api/reports/track/:trackingId
+ * Public tracking: returns 404 if not found, or public safe fields
  */
 export const trackReport = async (req, res, next) => {
   try {
-    const { trackingId } = req.params;
-    const report = await reportService.getReportByTrackingId(trackingId);
+    const { trackingId } = req.validatedParams || req.params;
+    const trackingData = await reportService.getReportTracking(trackingId);
 
-    if (!report) {
+    if (!trackingData) {
       throw ApiError.notFound(`Report not found with tracking ID: ${trackingId}`);
     }
 
     return ApiResponse.send(
       res,
       200,
-      report.toPublicJSON(),
+      trackingData,
       'Report tracking details retrieved successfully'
     );
   } catch (error) {

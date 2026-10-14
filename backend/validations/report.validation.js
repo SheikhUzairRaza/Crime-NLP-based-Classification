@@ -31,6 +31,15 @@ export const createReportSchema = z.object({
     .min(20, 'Complaint description must be at least 20 characters long')
 });
 
+export const trackReportParamsSchema = z.object({
+  trackingId: z
+    .string({ required_error: 'Tracking ID is required' })
+    .trim()
+    .min(5, 'Tracking ID cannot be empty')
+    .regex(/^CRIME-\d{4}-[A-F0-9]{10}$/i, 'Tracking ID must follow format CRIME-YYYY-XXXXXXXXXX (e.g. CRIME-2026-A83B4C91D2)')
+});
+
 export default {
-  createReportSchema
+  createReportSchema,
+  trackReportParamsSchema
 };

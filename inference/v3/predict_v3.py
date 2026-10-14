@@ -13,7 +13,10 @@ import torch.nn.functional as F
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_DIR = os.path.join(CURRENT_DIR, "v3")
+if os.path.exists(os.path.join(CURRENT_DIR, "config.json")):
+    MODEL_DIR = CURRENT_DIR
+else:
+    MODEL_DIR = os.path.join(CURRENT_DIR, "v3")
 
 # Comprehensive v3 Severity, Domain, and Citizen Advisory Rules
 CATEGORY_RULES = {
