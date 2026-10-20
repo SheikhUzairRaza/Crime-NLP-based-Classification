@@ -1,25 +1,20 @@
-import * as reportService from '../services/report.service.js';
+import * as adminService from '../services/admin.service.js';
 import { ApiResponse } from '../utils/apiResponse.js';
 
 /**
- * Controller: Handles GET /api/admin/reports
- * Protected endpoint returning all reports with filtering support
+ * Controller: Handles 5a. GET /api/v1/admin/reports
+ * Supports query filters (domain, severity, category, status, is_urgent)
+ * and pagination (?page=1&limit=20) with triage sorting
  */
 export const getAdminReports = async (req, res, next) => {
   try {
-    const filters = {
-      domain: req.query.domain,
-      severity: req.query.severity,
-      status: req.query.status,
-      is_urgent: req.query.is_urgent !== undefined ? req.query.is_urgent === 'true' : undefined
-    };
-
-    const reportsData = await reportService.getReports(filters);
+    const query = req.validatedQuery || req.query;
+    const result = await adminService.getTriageReports(query);
 
     return ApiResponse.send(
       res,
       200,
-      reportsData,
+      result,
       'Admin reports retrieved successfully'
     );
   } catch (error) {
@@ -27,6 +22,49 @@ export const getAdminReports = async (req, res, next) => {
   }
 };
 
+/**
+ * Controller: Handles 5b. GET /api/v1/admin/reports/:id
+ * Returns full report record with assigned officer details (or 404)
+ */
+export const getAdminReportById = async (req, res, next) => {
+  try {
+    const reportId = req.validatedParams?.id || req.params.id;
+    const report = await adminService.getReportById(reportId);
+
+    return ApiResponse.send(
+      res,
+      200,
+      report,
+      'Report retrieved successfully'
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Controller: Handles 5c. PATCH /api/v1/admin/reports/:id
+ * Updates status, assigned officer_id, and appends officer_notes
+ */
+export const updateAdminReport = async (req, res, next) => {
+  try {
+    const reportId = req.validatedParams?.id || req.params.id;
+    const updateData = req.validatedBody || req.body;
+    const updatedReport = await adminService.updateReport(reportId, updateData, req.user);
+
+    return ApiResponse.send(
+      res,
+      200,
+      updatedReport,
+      'Report updated successfully'
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
-  getAdminReports
+  getAdminReports,
+  getAdminReportById,
+  updateAdminReport
 };
