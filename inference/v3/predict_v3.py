@@ -88,12 +88,12 @@ CATEGORY_RULES = {
     }
 }
 
-print(f"[INIT] Loading DistilBERT v3 model from: {MODEL_DIR}")
+print(f"Loading DistilBERT v3 model from: {MODEL_DIR}")
 try:
     tokenizer = AutoTokenizer.from_pretrained(MODEL_DIR)
     model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
     model.eval()
-    print("[INIT] DistilBERT v3 model loaded successfully!")
+    print("DistilBERT v3 model loaded successfully!")
 except Exception as e:
     print(f"[ERROR] Failed to load v3 model: {e}")
     sys.exit(1)
