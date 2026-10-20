@@ -1,5 +1,6 @@
 import { sequelize, Report, Officer } from '../models/index.js';
 import { ApiError } from '../utils/apiError.js';
+import { mlClient } from './ml.client.js';
 
 /**
  * 5a. GET /api/v1/admin/reports
@@ -246,9 +247,56 @@ export const getStats = async () => {
   };
 };
 
+/**
+ * Phase 7: POST /api/v1/admin/reports/:id/reclassify
+ * Re-runs ML classification for a report (especially unclassified ones) and updates ML attributes
+ * 
+ * @param {number|string} id - Report ID
+ * @returns {Promise<Report>}
+ */
+export const reclassifyReport = async (id) => {
+  const report = await Report.findByPk(id);
+
+  if (!report) {
+    throw ApiError.notFound('Report not found');
+  }
+
+  // Call ML microservice
+  const mlData = await mlClient.classify(report.description);
+
+  if (!mlData || !mlData.predicted_category) {
+    throw ApiError.internal('ML classification service failed to return category prediction');
+  }
+
+  // Update ML triage fields
+  report.predicted_category = mlData.predicted_category;
+  report.domain = mlData.domain || null;
+  report.confidence_score = mlData.confidence_score || null;
+  report.severity = mlData.severity || null;
+  report.is_urgent = mlData.is_urgent || false;
+  report.safety_advisory = mlData.safety_advisory || null;
+  report.top_candidates = mlData.top_candidates || null;
+  report.classified_at = new Date();
+
+  await report.save();
+
+  await report.reload({
+    include: [
+      {
+        model: Officer,
+        as: 'officer',
+        attributes: ['id', 'name', 'email', 'role']
+      }
+    ]
+  });
+
+  return report;
+};
+
 export default {
   getTriageReports,
   getReportById,
   updateReport,
-  getStats
+  getStats,
+  reclassifyReport
 };

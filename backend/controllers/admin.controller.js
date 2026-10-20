@@ -82,9 +82,30 @@ export const getAdminStats = async (req, res, next) => {
   }
 };
 
+/**
+ * Controller: Handles Phase 7. POST /api/v1/admin/reports/:id/reclassify
+ * Triggers re-classification of report via ML microservice
+ */
+export const reclassifyAdminReport = async (req, res, next) => {
+  try {
+    const reportId = req.validatedParams?.id || req.params.id;
+    const reclassifiedReport = await adminService.reclassifyReport(reportId);
+
+    return ApiResponse.send(
+      res,
+      200,
+      reclassifiedReport,
+      'Report reclassified successfully'
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getAdminReports,
   getAdminReportById,
   updateAdminReport,
-  getAdminStats
+  getAdminStats,
+  reclassifyAdminReport
 };

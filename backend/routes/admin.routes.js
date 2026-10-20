@@ -3,7 +3,8 @@ import {
   getAdminReports,
   getAdminReportById,
   updateAdminReport,
-  getAdminStats
+  getAdminStats,
+  reclassifyAdminReport
 } from '../controllers/admin.controller.js';
 import { validate } from '../middlewares/validate.middleware.js';
 import {
@@ -40,6 +41,13 @@ router.patch(
   validate(reportIdParamSchema, 'params'),
   validate(updateReportSchema, 'body'),
   updateAdminReport
+);
+
+// Phase 7: POST /api/v1/admin/reports/:id/reclassify (trigger ML reclassification)
+router.post(
+  '/reports/:id/reclassify',
+  validate(reportIdParamSchema, 'params'),
+  reclassifyAdminReport
 );
 
 export default router;
