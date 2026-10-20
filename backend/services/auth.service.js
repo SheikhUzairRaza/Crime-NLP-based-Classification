@@ -17,7 +17,7 @@ const REFRESH_EXPIRY = () => process.env.REFRESH_TOKEN_EXPIRY || '7d';
  * @param {Officer} officer
  * @param {object} [options]
  * @param {import('sequelize').Transaction} [options.transaction]
- * @returns {Promise<{accessToken: string, refreshToken: string, token: string, expiresIn: string}>}
+ * @returns {Promise<{accessToken: string, refreshToken: string, expiresIn: string}>}
  */
 export const generateTokenPair = async (officer, options = {}) => {
   const payload = { id: officer.id, role: officer.role };
@@ -45,7 +45,6 @@ export const generateTokenPair = async (officer, options = {}) => {
   return {
     accessToken,
     refreshToken,
-    token: accessToken, // Backward compatibility alias
     expiresIn: ACCESS_EXPIRY()
   };
 };
@@ -55,7 +54,7 @@ export const generateTokenPair = async (officer, options = {}) => {
  * Returns exact same 'Invalid credentials' error for wrong email or wrong password
  * @param {string} email
  * @param {string} password
- * @returns {Promise<{officer: object, accessToken: string, refreshToken: string, token: string}>}
+ * @returns {Promise<{officer: object, accessToken: string, refreshToken: string, expiresIn: string}>}
  */
 export const login = async (email, password) => {
   // 1. Email se officer dhoondo
@@ -98,7 +97,7 @@ export const login = async (email, password) => {
  * - Any subsequent or replayed requests will read `is_revoked: true` and are rejected with 401.
  *
  * @param {string} incomingRefreshToken
- * @returns {Promise<{officer: object, accessToken: string, refreshToken: string, token: string}>}
+ * @returns {Promise<{officer: object, accessToken: string, refreshToken: string, expiresIn: string}>}
  */
 export const refreshAccessToken = async (incomingRefreshToken) => {
   if (!incomingRefreshToken) {

@@ -1,0 +1,584 @@
+{
+	"info": {
+		"_postman_id": "c71a39f0-2f9b-4b13-a417-crimeportal2026",
+		"name": "Crime & Cybercrime NLP Classification System API",
+		"description": "Production-grade Postman collection for the Crime & Cybercrime NLP Triage & Reporting System. Contains pre-configured requests, example payloads, and automated test scripts to auto-populate tokens and tracking IDs.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refreshToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "trackingId",
+			"value": "CRIME-2026-A57714EA63",
+			"type": "string"
+		},
+		{
+			"key": "reportId",
+			"value": "1",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "01. Health & Docs",
+			"item": [
+				{
+					"name": "1. Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"health"
+							]
+						},
+						"description": "Checks backend operational status and version."
+					},
+					"response": []
+				},
+				{
+					"name": "2. OpenAPI Spec JSON",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api-docs.json",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api-docs.json"
+							]
+						},
+						"description": "Returns raw OpenAPI 3.0 specification."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "02. Public Citizen Reports",
+			"item": [
+				{
+					"name": "1. Submit Physical Crime Report",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var res = pm.response.json();",
+									"    if (res.data && res.data.tracking_id) {",
+									"        pm.collectionVariables.set('trackingId', res.data.tracking_id);",
+									"        console.log('Saved trackingId:', res.data.tracking_id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"citizen_name\": \"Ahmed Bilal\",\n  \"contact_number\": \"+923001234567\",\n  \"incident_location\": \"Gulshan-e-Iqbal Block 13D, Karachi\",\n  \"incident_date\": \"2026-10-20T10:00:00Z\",\n  \"description\": \"Two armed men on a red 70cc motorcycle intercepted my vehicle at gunpoint and forcefully snatched my iPhone 15, wallet containing Rs. 25,000, and original CNIC card.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports"
+							]
+						},
+						"description": "Submits a physical crime complaint. Auto-classifies via DistilBERT and extracts Robbery & Armed Snatching, severity Critical, urgent flag, and safety advisory."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Submit Cybercrime Report",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var res = pm.response.json();",
+									"    if (res.data && res.data.tracking_id) {",
+									"        pm.collectionVariables.set('trackingId', res.data.tracking_id);",
+									"        console.log('Saved trackingId:', res.data.tracking_id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"citizen_name\": \"Sara Fatima\",\n  \"contact_number\": \"+923219876543\",\n  \"incident_location\": \"Online / Cyber\",\n  \"incident_date\": \"2026-10-20T14:15:00Z\",\n  \"description\": \"I received a fraudulent SMS spoofing my bank helpline asking to verify KYC. Upon entering credentials on their phishing portal, Rs. 150,000 was unauthorizedly transferred via Raast.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports"
+							]
+						},
+						"description": "Submits a cyber financial fraud complaint. Auto-classifies as Financial Fraud, domain Cyber, severity High."
+					},
+					"response": []
+				},
+				{
+					"name": "3. Track Citizen Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports/track/{{trackingId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"track",
+								"{{trackingId}}"
+							]
+						},
+						"description": "Public incident lookup. Returns current status, safety advisory, and assigned officer while concealing private complainant contact details and officer notes."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "03. Authentication",
+			"item": [
+				{
+					"name": "1. Admin/Officer Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var res = pm.response.json();",
+									"    if (res.data && res.data.accessToken) {",
+									"        pm.collectionVariables.set('token', res.data.accessToken);",
+									"        console.log('Saved accessToken to variable');",
+									"    }",
+									"    if (res.data && res.data.refreshToken) {",
+									"        pm.collectionVariables.set('refreshToken', res.data.refreshToken);",
+									"        console.log('Saved refreshToken to variable');",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@crimeportal.gov\",\n  \"password\": \"Admin@12345\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Authenticates officer/admin. Auto-saves access token and refresh token into collection variables."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Refresh Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var res = pm.response.json();",
+									"    if (res.data && res.data.accessToken) {",
+									"        pm.collectionVariables.set('token', res.data.accessToken);",
+									"    }",
+									"    if (res.data && res.data.refreshToken) {",
+									"        pm.collectionVariables.set('refreshToken', res.data.refreshToken);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/refresh-token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"refresh-token"
+							]
+						},
+						"description": "Rotates refresh token and issues fresh access token."
+					},
+					"response": []
+				},
+				{
+					"name": "3. Logout Session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Revokes the active refresh token in the database."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "04. Admin Triage & Operations",
+			"item": [
+				{
+					"name": "1. Get All Reports (Triage List)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var res = pm.response.json();",
+									"    if (res.data && res.data.reports && res.data.reports.length > 0) {",
+									"        pm.collectionVariables.set('reportId', res.data.reports[0].id.toString());",
+									"        console.log('Saved first reportId:', res.data.reports[0].id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/reports?page=1&limit=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"reports"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Fetches paginated cases sorted by priority: Critical first, then High, then Medium, then NULLs, then newest created_at."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Filter Cyber & Critical Reports",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/reports?domain=Cyber&severity=Critical&status=Pending",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"reports"
+							],
+							"query": [
+								{
+									"key": "domain",
+									"value": "Cyber"
+								},
+								{
+									"key": "severity",
+									"value": "Critical"
+								},
+								{
+									"key": "status",
+									"value": "Pending"
+								}
+							]
+						},
+						"description": "Filters cases by domain, severity, and pending status."
+					},
+					"response": []
+				},
+				{
+					"name": "3. Get Single Report by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/reports/{{reportId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"reports",
+								"{{reportId}}"
+							]
+						},
+						"description": "Returns full incident record with unmasked complainant PII, top candidate ML probabilities, and assigned officer."
+					},
+					"response": []
+				},
+				{
+					"name": "4. Update Report Status & Append Notes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"Under Investigation\",\n  \"officer_id\": 1,\n  \"officer_notes\": \"Dispatched quick response team to obtain nearby security CCTV recordings.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/reports/{{reportId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"reports",
+								"{{reportId}}"
+							]
+						},
+						"description": "Updates report status (Under Investigation, Resolved, Dismissed), assigns officer, and appends timestamped notes to audit trail."
+					},
+					"response": []
+				},
+				{
+					"name": "5. Reclassify Report with ML",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/reports/{{reportId}}/reclassify",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"reports",
+								"{{reportId}}",
+								"reclassify"
+							]
+						},
+						"description": "Re-runs ML classification for reports where ML fields are null."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "05. Admin Analytics",
+			"item": [
+				{
+					"name": "1. Get Admin Stats & Analytics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/stats",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"stats"
+							]
+						},
+						"description": "Aggregates incident counts directly inside MySQL via GROUP BY (domain, severity, and top 5 categories)."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
