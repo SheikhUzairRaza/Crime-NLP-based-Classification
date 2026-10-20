@@ -23,11 +23,14 @@ app.get('/api/v1/health', (req, res) => {
 });
 
 // -----------------------------------------------------------------------------
-// /api/v1 API Routes
+// Admin & Public API Routes
 // -----------------------------------------------------------------------------
 app.use('/api/v1/reports', reportRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/admin', authMiddleware, adminRoutes);
+
+// Support /api/admin alias for triage routes
+app.use('/api/admin', authMiddleware, adminRoutes);
 
 // -----------------------------------------------------------------------------
 // Centralized Error Handling Middleware (must be after routes)
