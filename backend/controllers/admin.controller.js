@@ -63,8 +63,28 @@ export const updateAdminReport = async (req, res, next) => {
   }
 };
 
+/**
+ * Controller: Handles Phase 6. GET /api/v1/admin/stats
+ * Aggregates crime incident stats via direct SQL GROUP BY
+ */
+export const getAdminStats = async (req, res, next) => {
+  try {
+    const stats = await adminService.getStats();
+
+    return ApiResponse.send(
+      res,
+      200,
+      stats,
+      'Admin statistics retrieved successfully'
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getAdminReports,
   getAdminReportById,
-  updateAdminReport
+  updateAdminReport,
+  getAdminStats
 };

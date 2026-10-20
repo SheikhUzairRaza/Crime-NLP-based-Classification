@@ -2,7 +2,8 @@ import { Router } from 'express';
 import {
   getAdminReports,
   getAdminReportById,
-  updateAdminReport
+  updateAdminReport,
+  getAdminStats
 } from '../controllers/admin.controller.js';
 import { validate } from '../middlewares/validate.middleware.js';
 import {
@@ -18,6 +19,12 @@ router.get(
   '/reports',
   validate(getReportsQuerySchema, 'query'),
   getAdminReports
+);
+
+// Phase 6: GET /api/v1/admin/stats (analytics and aggregation)
+router.get(
+  '/stats',
+  getAdminStats
 );
 
 // 5b. GET /api/v1/admin/reports/:id (full record or 404)

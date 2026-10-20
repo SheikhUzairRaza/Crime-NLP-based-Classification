@@ -192,8 +192,63 @@ export const updateReport = async (id, updateData = {}, currentUser = {}) => {
   return report;
 };
 
+/**
+ * Phase 6: GET /api/v1/admin/stats
+ * Aggregates crime triage analytics using database GROUP BY queries without loading rows into memory
+ * 
+ * @returns {Promise<{total: number, by_domain: object, by_severity: object, top_categories: Array<{category: string, count: number}>}>}
+ */
+export const getStats = async () => {
+  // 1. Total reports count
+  const total = await Report.count();
+
+  // 2. Counts grouped by domain: Report.count({ group: ['domain'] })
+  const domainCounts = await Report.count({ group: ['domain'] });
+
+  // 3. Counts grouped by severity: Report.count({ group: ['severity'] })
+  const severityCounts = await Report.count({ group: ['severity'] });
+
+  // 4. Top 5 categories ordered by count DESC
+  const topCategoriesRows = await Report.findAll({
+    attributes: [
+      ['predicted_category', 'category'],
+      [sequelize.fn('COUNT', sequelize.col('id')), 'count']
+    ],
+    group: ['predicted_category'],
+    order: [[sequelize.literal('count'), 'DESC']],
+    limit: 5,
+    raw: true
+  });
+
+  // Format by_domain map
+  const by_domain = {};
+  domainCounts.forEach((item) => {
+    by_domain[item.domain || 'Unclassified'] = parseInt(item.count, 10);
+  });
+
+  // Format by_severity map
+  const by_severity = {};
+  severityCounts.forEach((item) => {
+    by_severity[item.severity || 'Unclassified'] = parseInt(item.count, 10);
+  });
+
+  // Format top_categories list
+  const top_categories = topCategoriesRows.map((item) => ({
+    category: item.category || 'Unclassified',
+    count: parseInt(item.count, 10)
+  }));
+
+  return {
+    total,
+    by_domain,
+    by_severity,
+    top_categories
+  };
+};
+
 export default {
   getTriageReports,
   getReportById,
-  updateReport
+  updateReport,
+  getStats
 };
