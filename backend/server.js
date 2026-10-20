@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './docs/swagger.js';
 import { sequelize } from './models/index.js';
 import reportRoutes from './routes/report.routes.js';
 import authRoutes from './routes/auth.routes.js';
@@ -14,6 +16,12 @@ const PORT = process.env.PORT || 5000;
 // Middleware 
 app.use(cors());
 app.use(express.json());
+
+// -----------------------------------------------------------------------------
+// Interactive Swagger UI & OpenAPI Documentation
+// -----------------------------------------------------------------------------
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get('/api-docs.json', (req, res) => res.json(swaggerSpec));
 
 // -----------------------------------------------------------------------------
 // Health Check Endpoint
@@ -39,8 +47,9 @@ app.use(errorHandler);
 
 // Start Server
 app.listen(PORT, async () => {
-  console.log(`[+] Backend server is running on http://localhost:${PORT}`);
-  console.log(`[+] Health check URL: http://localhost:${PORT}/api/v1/health`);
+  console.log(`Backend server is running on http://localhost:${PORT}`);
+  console.log(`Health check URL: http://localhost:${PORT}/api/v1/health`);
+  console.log(`Swagger UI Docs: http://localhost:${PORT}/api-docs`);
 
   try {
     await sequelize.authenticate();
