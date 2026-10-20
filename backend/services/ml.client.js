@@ -33,7 +33,7 @@ class MLClient {
       }
       return null;
     } catch (error) {
-      console.warn(`[!] ML Microservice offline or error (${error.message}). Saving report without ML classification.`);
+      console.warn(`ML Microservice offline or error (${error.message}). Saving report without ML classification.`);
       return {
         predicted_category: null,
         domain: null,

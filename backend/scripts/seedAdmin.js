@@ -9,7 +9,7 @@ import { Officer, sequelize } from '../models/index.js';
 async function seedAdmin() {
   try {
     await sequelize.authenticate();
-    console.log('[+] Connected to database for seeding...');
+    console.log('Connected to database for seeding...');
 
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@crimeportal.gov';
     const adminPassword = process.env.ADMIN_PASSWORD || 'Admin@12345';
@@ -18,7 +18,7 @@ async function seedAdmin() {
     // Check if admin already exists
     const existingAdmin = await Officer.findOne({ where: { email: adminEmail } });
     if (existingAdmin) {
-      console.log(`[!] Admin account with email "${adminEmail}" already exists. (ID: ${existingAdmin.id})`);
+      console.log(`Admin account with email "${adminEmail}" already exists. (ID: ${existingAdmin.id})`);
       process.exit(0);
     }
 
@@ -35,7 +35,7 @@ async function seedAdmin() {
     });
 
     console.log('='.repeat(65));
-    console.log('[+] INITIAL ADMIN ACCOUNT SEEDED SUCCESSFULLY!');
+    console.log('INITIAL ADMIN ACCOUNT SEEDED SUCCESSFULLY!');
     console.log(`    ID    : ${admin.id}`);
     console.log(`    Name  : ${admin.name}`);
     console.log(`    Email : ${admin.email}`);
@@ -45,7 +45,7 @@ async function seedAdmin() {
 
     process.exit(0);
   } catch (error) {
-    console.error('[-] Seeding failed:', error);
+    console.error('Seeding failed:', error);
     process.exit(1);
   }
 }

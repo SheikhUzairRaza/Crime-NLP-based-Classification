@@ -30,9 +30,9 @@ predictor = None
 @app.on_event("startup")
 def startup_event():
     global predictor
-    print("[*] Initializing DistilBERT Predictor on FastAPI startup...")
+    print("Initializing DistilBERT Predictor on FastAPI startup...")
     predictor = get_predictor()
-    print("[+] Model ready to serve requests on port 8000!")
+    print("Model ready to serve requests on port 8000!")
 
 
 class PredictionRequest(BaseModel):

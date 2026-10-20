@@ -98,11 +98,11 @@ DEFAULT_RULE = {
 
 class DistilBertPredictor:
     def __init__(self, model_path=MODEL_DIR):
-        print(f"[*] Loading DistilBERT Tokenizer & Model from: {model_path}...")
+        print(f"Loading DistilBERT Tokenizer & Model from: {model_path}...")
         self.tokenizer = AutoTokenizer.from_pretrained(model_path)
         self.model = AutoModelForSequenceClassification.from_pretrained(model_path)
         self.model.eval()  # Set evaluation mode for fast CPU inference
-        print("[+] Model loaded successfully and ready for inference!\n")
+        print("Model loaded successfully and ready for inference!\n")
 
     def predict(self, text: str) -> dict:
         """Runs inference on a given input complaint text."""

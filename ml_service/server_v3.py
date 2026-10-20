@@ -96,5 +96,5 @@ def predict_endpoint(payload: PredictionRequest):
 
 if __name__ == "__main__":
     import uvicorn
-    print("[*] Starting Crime NLP Microservice v3 on port 8000...")
+    print("Starting Crime NLP Microservice v3 on port 8000...")
     uvicorn.run("server_v3:app", host="0.0.0.0", port=8000, reload=False)
