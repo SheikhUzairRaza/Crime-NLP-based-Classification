@@ -364,6 +364,7 @@ Manages long-lived JWT refresh sessions with rotation and replay defense.
   - `domain`: Filter by `'Cyber'` or `'Physical'`.
   - `severity`: Filter by `'Critical'`, `'High'`, or `'Medium'`.
   - `status`: Filter by `'Pending'`, `'Under Investigation'`, `'Resolved'`, or `'Dismissed'`.
+  - `officer_id`: Filter by assigned officer ID (e.g., `1`), or `'unassigned'` to fetch cases with no assigned officer.
   - `category`: Filter by crime category (e.g., `Financial Fraud`, URL-encoded for `&`).
   - `is_urgent`: Boolean filter (`true` or `false`).
 - **Request Example**:
@@ -398,6 +399,66 @@ Manages long-lived JWT refresh sessions with rotation and replay defense.
       "total": 1,
       "page": 1,
       "limit": 10,
+      "pages": 1
+    }
+  }
+}
+```
+
+---
+
+#### 5.8b Officer Assigned Tasks (`GET /api/v1/admin/reports/my-tasks`)
+- **Access**: Protected (`Authorization: Bearer <accessToken>`)
+- **Purpose**: Dedicated endpoint for investigating officers. Automatically extracts the authenticated officer's ID (`req.user.id`) from the JWT Bearer token and returns only the cases assigned to them (`WHERE officer_id = req.user.id`).
+- **Sorting Logic**: Critical & urgent cases appear first, followed by newest created.
+- **Query Parameters**:
+  - `page`: Page index (default: `1`).
+  - `limit`: Items per page (default: `20`, max: `100`).
+  - `status`: Optional filter (`Under Investigation`, `Resolved`, `Dismissed`, `Pending`).
+  - `domain`: Optional filter (`Cyber` or `Physical`).
+  - `severity`: Optional filter (`Critical`, `High`, `Medium`).
+  - `is_urgent`: Optional boolean filter (`true` or `false`).
+- **Request Example**:
+  - `GET http://localhost:5000/api/v1/admin/reports/my-tasks?status=Under%20Investigation`
+  - `Authorization: Bearer <accessToken>`
+- **Response `200 OK`**:
+```json
+{
+  "success": true,
+  "message": "Officer assigned tasks retrieved successfully",
+  "data": {
+    "total": 3,
+    "page": 1,
+    "limit": 20,
+    "pages": 1,
+    "reports": [
+      {
+        "id": 14,
+        "tracking_id": "CRIME-2026-F1A29D80BE",
+        "citizen_name": "Tariq Mahmood",
+        "contact_number": "+923214567890",
+        "incident_location": "I.I Chundrigar Road, Karachi",
+        "incident_date": "2026-10-20T14:30:00.000Z",
+        "description": "Our core company database was breached by an unknown attacker demanding 5 BTC ransom.",
+        "predicted_category": "Ransomware & Digital Extortion",
+        "domain": "Cyber",
+        "confidence_score": 98.7,
+        "severity": "Critical",
+        "is_urgent": true,
+        "status": "Under Investigation",
+        "officer_notes": "[2026-10-21T01:12:00.000Z] Super Administrator: Contacted complainant. Server hard drives secured for digital forensics inspection.",
+        "created_at": "2026-10-21T00:15:00.000Z",
+        "officer": {
+          "id": 1,
+          "name": "Super Administrator",
+          "email": "admin@crimeportal.gov",
+          "role": "admin"
+        }
+      }
+    ]
+  }
+}
+```
       "pages": 1
     }
   }

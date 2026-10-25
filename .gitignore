@@ -8,3 +8,6 @@ __pycache__/
 *.pyc
 .env
 backend/.env
+scratch/
+inference/v4/model.safetensors
+
