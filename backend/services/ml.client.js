@@ -27,6 +27,8 @@ class MLClient {
           severity: response.data.severity,
           is_urgent: Boolean(response.data.is_urgent),
           safety_advisory: response.data.safety_advisory,
+          normalized_text: response.data.normalized_text || description,
+          is_translated: Boolean(response.data.is_translated),
           top_candidates: response.data.top_candidates,
           classified_at: new Date()
         };

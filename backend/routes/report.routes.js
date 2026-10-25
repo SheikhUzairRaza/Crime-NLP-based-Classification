@@ -1,10 +1,13 @@
 import { Router } from 'express';
-import { createReport, trackReport } from '../controllers/report.controller.js';
+import { createReport, trackReport, classifySentence } from '../controllers/report.controller.js';
 import { validate, validateParams } from '../middlewares/validate.middleware.js';
 import { createReportSchema, trackReportParamsSchema } from '../validations/report.validation.js';
 import { reportCreationLimiter, trackingLimiter } from '../middlewares/rateLimiter.middleware.js';
 
 const router = Router();
+
+// POST /api/v1/reports/classify - Direct sentence classification without DB persistence
+router.post('/classify', classifySentence);
 
 // POST /api/v1/reports - Rate limited to 5/hour per IP, validated with Zod
 router.post(

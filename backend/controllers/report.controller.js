@@ -59,7 +59,32 @@ export const trackReport = async (req, res, next) => {
   }
 };
 
+/**
+ * Controller: Handles POST /api/v1/reports/classify
+ * Classifies an incident sentence/text directly without saving to DB
+ */
+export const classifySentence = async (req, res, next) => {
+  try {
+    const text = req.body?.text;
+    if (!text || typeof text !== 'string' || text.trim().length < 3) {
+      throw ApiError.badRequest('Field "text" is required (minimum 3 characters)');
+    }
+
+    const prediction = await reportService.classifyText(text.trim());
+
+    return ApiResponse.send(
+      res,
+      200,
+      prediction,
+      'Sentence classified successfully'
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   createReport,
-  trackReport
+  trackReport,
+  classifySentence
 };

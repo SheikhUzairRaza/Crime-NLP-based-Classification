@@ -23,6 +23,27 @@ export const getAdminReports = async (req, res, next) => {
 };
 
 /**
+ * Controller: Handles GET /api/v1/admin/reports/my-tasks
+ * Retrieves reports specifically assigned to the currently authenticated officer
+ */
+export const getMyTasks = async (req, res, next) => {
+  try {
+    const officerId = req.user?.id;
+    const query = req.validatedQuery || req.query;
+    const result = await adminService.getMyAssignedTasks(officerId, query);
+
+    return ApiResponse.send(
+      res,
+      200,
+      result,
+      'Officer assigned tasks retrieved successfully'
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * Controller: Handles 5b. GET /api/v1/admin/reports/:id
  * Returns full report record with assigned officer details (or 404)
  */
@@ -104,6 +125,7 @@ export const reclassifyAdminReport = async (req, res, next) => {
 
 export default {
   getAdminReports,
+  getMyTasks,
   getAdminReportById,
   updateAdminReport,
   getAdminStats,

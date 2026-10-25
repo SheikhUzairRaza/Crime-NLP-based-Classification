@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   getAdminReports,
+  getMyTasks,
   getAdminReportById,
   updateAdminReport,
   getAdminStats,
@@ -9,17 +10,25 @@ import {
 import { validate } from '../middlewares/validate.middleware.js';
 import {
   getReportsQuerySchema,
+  getMyTasksQuerySchema,
   reportIdParamSchema,
   updateReportSchema
 } from '../validations/admin.validation.js';
 
 const router = Router();
 
-// 5a. GET /api/v1/admin/reports (with query filters and pagination)
+// 5a. GET /api/v1/admin/reports (with query filters, officer_id filter, and pagination)
 router.get(
   '/reports',
   validate(getReportsQuerySchema, 'query'),
   getAdminReports
+);
+
+// Officer Assigned Tasks: GET /api/v1/admin/reports/my-tasks
+router.get(
+  '/reports/my-tasks',
+  validate(getMyTasksQuerySchema, 'query'),
+  getMyTasks
 );
 
 // Phase 6: GET /api/v1/admin/stats (analytics and aggregation)

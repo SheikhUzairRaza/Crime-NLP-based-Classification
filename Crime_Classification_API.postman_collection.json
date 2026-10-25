@@ -80,6 +80,36 @@
 			"name": "02. Public Citizen Reports",
 			"item": [
 				{
+					"name": "0. Direct Sentence Classification (Instant AI)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"Mera phone cheen lia gun dikha kar Saddar mein\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/reports/classify",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"classify"
+							]
+						},
+						"description": "Directly sends an incident sentence (English, Roman Urdu, or slang) through DeBERTa-v3 NLP model and Gemini Normalizer without storing in the database."
+					},
+					"response": []
+				},
+				{
 					"name": "1. Submit Physical Crime Report",
 					"event": [
 						{
@@ -392,7 +422,49 @@
 					"response": []
 				},
 				{
-					"name": "2. Filter Cyber & Critical Reports",
+					"name": "2. Get My Assigned Tasks (Officer View)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/admin/reports/my-tasks?page=1&limit=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"reports",
+								"my-tasks"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Fetches cases specifically assigned to the currently authenticated officer (extracted automatically from Bearer token req.user.id)."
+					},
+					"response": []
+				},
+				{
+					"name": "3. Filter Cyber & Critical Reports",
 					"request": {
 						"auth": {
 							"type": "bearer",

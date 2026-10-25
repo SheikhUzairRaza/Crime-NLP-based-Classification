@@ -15,6 +15,7 @@ export const getTriageReports = async (query = {}) => {
     severity,
     category,
     status,
+    officer_id,
     is_urgent,
     page = 1,
     limit = 20
@@ -38,6 +39,14 @@ export const getTriageReports = async (query = {}) => {
 
   if (status) {
     whereClause.status = status;
+  }
+
+  if (officer_id !== undefined) {
+    if (officer_id === 'unassigned' || officer_id === null) {
+      whereClause.officer_id = null;
+    } else {
+      whereClause.officer_id = officer_id;
+    }
   }
 
   if (is_urgent !== undefined) {
@@ -89,6 +98,20 @@ export const getTriageReports = async (query = {}) => {
     pages: totalPages,
     reports: rows
   };
+};
+
+/**
+ * Retrieves reports specifically assigned to the authenticated officer
+ * 
+ * @param {number} officerId - ID of logged-in officer
+ * @param {object} query - Validated query parameters
+ * @returns {Promise<{total: number, page: number, limit: number, pages: number, reports: Report[]}>}
+ */
+export const getMyAssignedTasks = async (officerId, query = {}) => {
+  return await getTriageReports({
+    ...query,
+    officer_id: officerId
+  });
 };
 
 /**

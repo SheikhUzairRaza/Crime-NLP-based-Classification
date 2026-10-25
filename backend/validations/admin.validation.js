@@ -8,6 +8,40 @@ export const getReportsQuerySchema = z.object({
   severity: z.enum(['Critical', 'High', 'Medium', 'Low']).optional(),
   category: z.string().trim().optional(),
   status: z.enum(['Pending', 'Under Investigation', 'Resolved', 'Dismissed']).optional(),
+  officer_id: z
+    .preprocess((val) => {
+      if (typeof val === 'string') {
+        if (val.toLowerCase() === 'unassigned' || val.toLowerCase() === 'null') return 'unassigned';
+        const parsed = parseInt(val, 10);
+        return isNaN(parsed) ? val : parsed;
+      }
+      return val;
+    }, z.union([z.number().int().positive(), z.literal('unassigned')]))
+    .optional(),
+  is_urgent: z
+    .preprocess((val) => {
+      if (typeof val === 'string') {
+        if (val.toLowerCase() === 'true') return true;
+        if (val.toLowerCase() === 'false') return false;
+      }
+      return val;
+    }, z.boolean().optional()),
+  page: z
+    .preprocess((val) => (val !== undefined ? parseInt(String(val), 10) : 1), z.number().int().min(1))
+    .default(1),
+  limit: z
+    .preprocess((val) => (val !== undefined ? parseInt(String(val), 10) : 20), z.number().int().min(1).max(100))
+    .default(20)
+});
+
+/**
+ * Schema for validating query parameters in GET /api/v1/admin/reports/my-tasks
+ */
+export const getMyTasksQuerySchema = z.object({
+  domain: z.enum(['Cyber', 'Physical']).optional(),
+  severity: z.enum(['Critical', 'High', 'Medium', 'Low']).optional(),
+  category: z.string().trim().optional(),
+  status: z.enum(['Pending', 'Under Investigation', 'Resolved', 'Dismissed']).optional(),
   is_urgent: z
     .preprocess((val) => {
       if (typeof val === 'string') {

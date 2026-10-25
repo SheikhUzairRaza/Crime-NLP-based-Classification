@@ -79,6 +79,15 @@ export const getReportTracking = async (trackingId) => {
 };
 
 /**
+ * Direct text classification without database storage
+ * @param {string} text - Incident narrative or sentence
+ * @returns {Promise<object>} ML prediction result
+ */
+export const classifyText = async (text) => {
+  return await mlClient.classify(text);
+};
+
+/**
  * Retrieves reports with filtering (Admin / Internal use)
  * @param {object} filters
  * @returns {Promise<{rows: Report[], count: number}>}

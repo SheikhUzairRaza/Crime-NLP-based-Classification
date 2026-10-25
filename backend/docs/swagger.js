@@ -73,6 +73,63 @@ RESTful API for citizen crime incident reporting, automated AI/NLP triage using 
         },
       },
     },
+    '/api/v1/reports/classify': {
+      post: {
+        tags: ['Public Citizen Reports'],
+        summary: 'Direct sentence classification (instant AI inference preview)',
+        description:
+          'Passes any raw incident sentence/narrative (in English or Roman Urdu) directly through the DeBERTa-v3 NLP model and Gemini Normalizer. Returns category, domain, confidence, urgency, and safety advisory without saving to the database.',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['text'],
+                properties: {
+                  text: {
+                    type: 'string',
+                    example: 'Mera phone cheen lia gun dikha kar Saddar mein',
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: 'Direct classification output',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    success: { type: 'boolean', example: true },
+                    data: {
+                      type: 'object',
+                      properties: {
+                        predicted_category: { type: 'string', example: 'Robbery & Armed Snatching' },
+                        domain: { type: 'string', example: 'Physical' },
+                        confidence_score: { type: 'number', example: 97.4 },
+                        severity: { type: 'string', example: 'Critical' },
+                        is_urgent: { type: 'boolean', example: true },
+                        safety_advisory: { type: 'string' },
+                        normalized_text: { type: 'string' },
+                        is_translated: { type: 'boolean', example: true },
+                        top_candidates: { type: 'array' },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          400: {
+            description: 'Missing or empty text parameter',
+          },
+        },
+      },
+    },
     '/api/v1/reports': {
       post: {
         tags: ['Public Citizen Reports'],
@@ -343,6 +400,13 @@ Protected endpoint returning paginated complaints.
             },
           },
           {
+            name: 'officer_id',
+            in: 'query',
+            description:
+              'Filter by assigned officer ID (e.g. 1) or "unassigned" to get unassigned reports',
+            schema: { type: 'string', example: '1' },
+          },
+          {
             name: 'is_urgent',
             in: 'query',
             description: 'Filter by urgent dispatch flag',
@@ -364,6 +428,89 @@ Protected endpoint returning paginated complaints.
         responses: {
           200: {
             description: 'Paginated admin triage reports',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/AdminReportsListResponse',
+                },
+              },
+            },
+          },
+          401: {
+            description: 'Unauthorized - Missing or invalid Bearer token',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/ErrorResponse' },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/v1/admin/reports/my-tasks': {
+      get: {
+        tags: ['Admin Triage & Operations'],
+        summary:
+          'Get assigned reports for the currently authenticated officer',
+        description: `
+Retrieves cases specifically assigned to the logged-in officer (extracted automatically from the Bearer JWT token \`req.user.id\`).
+- **Triage Sorting**: Critical & urgent complaints appear first.
+- **Filters**: domain, severity, category, status, is_urgent.
+        `,
+        security: [{ BearerAuth: [] }],
+        parameters: [
+          {
+            name: 'domain',
+            in: 'query',
+            description: 'Filter by domain',
+            schema: { type: 'string', enum: ['Cyber', 'Physical'] },
+          },
+          {
+            name: 'severity',
+            in: 'query',
+            description: 'Filter by severity',
+            schema: {
+              type: 'string',
+              enum: ['Critical', 'High', 'Medium', 'Low'],
+            },
+          },
+          {
+            name: 'category',
+            in: 'query',
+            description: 'Filter by category',
+            schema: { type: 'string' },
+          },
+          {
+            name: 'status',
+            in: 'query',
+            description: 'Filter by investigation status',
+            schema: {
+              type: 'string',
+              enum: ['Pending', 'Under Investigation', 'Resolved', 'Dismissed'],
+            },
+          },
+          {
+            name: 'is_urgent',
+            in: 'query',
+            description: 'Filter by urgent dispatch flag',
+            schema: { type: 'boolean' },
+          },
+          {
+            name: 'page',
+            in: 'query',
+            description: 'Page number (default: 1)',
+            schema: { type: 'integer', default: 1, minimum: 1 },
+          },
+          {
+            name: 'limit',
+            in: 'query',
+            description: 'Items per page (default: 20, max: 100)',
+            schema: { type: 'integer', default: 20, minimum: 1, maximum: 100 },
+          },
+        ],
+        responses: {
+          200: {
+            description: 'Paginated tasks assigned to the current officer',
             content: {
               'application/json': {
                 schema: {
