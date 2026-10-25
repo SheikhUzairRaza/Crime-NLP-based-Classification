@@ -18,11 +18,20 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Security: Disable X-Powered-By header so Express is hidden
+app.disable('x-powered-by');
+
 // Trust reverse proxy (Nginx) for accurate IP rate limiting
 app.set('trust proxy', 1);
 
-// Middleware 
-app.use(cors());
+// Permissive CORS for all frontend clients (React, Next.js, Vue, Mobile apps, Postman)
+app.use(cors({
+  origin: true, // Dynamically reflects request Origin to allow ANY domain with credentials & headers
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
+}));
+app.options('*', cors());
 app.use(express.json());
 
 // Serve static frontend testing UI
