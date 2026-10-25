@@ -9,12 +9,12 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
-from inference.v3.predict_v3 import predict_crime, CATEGORY_RULES
+from inference.v4.predict_v4 import predict_crime, CATEGORY_RULES
 
 app = FastAPI(
     title="Crime & Cybercrime NLP Classification Microservice",
-    description="Fine-tuned DistilBERT v3 inference engine for Cyber & Physical Crime Triage",
-    version="3.0.0"
+    description="Fine-tuned DeBERTa-v3 v4 inference engine for Cyber & Physical Crime Triage",
+    version="4.0.0"
 )
 
 app.add_middleware(
@@ -38,6 +38,8 @@ class CandidatePrediction(BaseModel):
 class PredictionResponse(BaseModel):
     success: bool
     input_text: str
+    normalized_text: Optional[str] = None
+    is_translated: bool = False
     predicted_category: str
     domain: str
     confidence_score: float
@@ -81,7 +83,9 @@ def predict_endpoint(payload: PredictionRequest):
         res = predict_crime(payload.text)
         return {
             "success": True,
-            "input_text": payload.text,
+            "input_text": res.get("original_text", payload.text),
+            "normalized_text": res.get("normalized_text", payload.text),
+            "is_translated": res.get("is_translated", False),
             "predicted_category": res["predicted_category"],
             "domain": res["domain"],
             "confidence_score": res["confidence"],
