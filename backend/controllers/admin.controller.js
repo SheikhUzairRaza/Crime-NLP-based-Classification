@@ -123,11 +123,56 @@ export const reclassifyAdminReport = async (req, res, next) => {
   }
 };
 
+/**
+ * Controller: Handles POST /api/v1/admin/officers
+ * Registers a new officer (Admin-only access)
+ */
+export const createOfficer = async (req, res, next) => {
+  try {
+    if (req.user?.role !== 'admin') {
+      throw ApiError.forbidden('Only administrators have permission to register new officers');
+    }
+
+    const officerData = req.validatedBody || req.body;
+    const newOfficer = await adminService.createOfficer(officerData);
+
+    return ApiResponse.send(
+      res,
+      201,
+      newOfficer,
+      'Officer account created successfully'
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * Controller: Handles GET /api/v1/admin/officers
+ * Returns list of all officers for case assignment dropdown & directory
+ */
+export const getAllOfficers = async (req, res, next) => {
+  try {
+    const officers = await adminService.getAllOfficers();
+
+    return ApiResponse.send(
+      res,
+      200,
+      officers,
+      'Officers retrieved successfully'
+    );
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getAdminReports,
   getMyTasks,
   getAdminReportById,
   updateAdminReport,
   getAdminStats,
-  reclassifyAdminReport
+  reclassifyAdminReport,
+  createOfficer,
+  getAllOfficers
 };

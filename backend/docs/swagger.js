@@ -25,6 +25,10 @@ RESTful API for citizen crime incident reporting, automated AI/NLP triage using 
   },
   servers: [
     {
+      url: 'https://vigilex.duckdns.org',
+      description: 'Production Server (AWS EC2 - HTTPS)',
+    },
+    {
       url: 'http://localhost:5000',
       description: 'Local Development Server',
     },
@@ -355,6 +359,60 @@ Rejects any attempt to reuse an old or revoked refresh token with 401.
           },
         },
       },
+    },
+    '/api/v1/admin/officers': {
+      post: {
+        tags: ['Admin Triage & Operations'],
+        summary: 'Create a new police officer account (Admin only)',
+        description: 'Allows an administrator to register an investigator or officer with name, email, role, and password.',
+        security: [{ BearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['name', 'email', 'password'],
+                properties: {
+                  name: { type: 'string', example: 'Inspector Tariq' },
+                  email: { type: 'string', format: 'email', example: 'tariq@police.gov.pk' },
+                  password: { type: 'string', format: 'password', example: 'Password123!' },
+                  role: { type: 'string', enum: ['admin', 'officer'], default: 'officer' }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          201: {
+            description: 'Officer account created successfully',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/SuccessResponse' }
+              }
+            }
+          },
+          403: {
+            description: 'Forbidden - Only administrators can register officers'
+          }
+        }
+      },
+      get: {
+        tags: ['Admin Triage & Operations'],
+        summary: 'List all officers (For case assignment dropdown & directory)',
+        description: 'Returns list of registered officers to assign cases to.',
+        security: [{ BearerAuth: [] }],
+        responses: {
+          200: {
+            description: 'Officers retrieved successfully',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/SuccessResponse' }
+              }
+            }
+          }
+        }
+      }
     },
     '/api/v1/admin/reports': {
       get: {

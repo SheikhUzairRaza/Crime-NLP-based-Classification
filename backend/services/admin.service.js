@@ -316,10 +316,48 @@ export const reclassifyReport = async (id) => {
   return report;
 };
 
+/**
+ * Creates a new Officer account (Admin privilege required)
+ * 
+ * @param {object} officerData - Validated payload { name, email, password, role }
+ * @returns {Promise<Officer>}
+ */
+export const createOfficer = async (officerData) => {
+  const existing = await Officer.findOne({ where: { email: officerData.email } });
+  if (existing) {
+    throw ApiError.badRequest('An officer with this email is already registered');
+  }
+
+  const newOfficer = await Officer.create({
+    name: officerData.name,
+    email: officerData.email,
+    password_hash: officerData.password, // BeforeSave hook automatically bcrypt-hashes this
+    role: officerData.role || 'officer'
+  });
+
+  return newOfficer.toJSON();
+};
+
+/**
+ * Retrieves all registered officers (for assignment dropdown & directory)
+ * 
+ * @returns {Promise<Officer[]>}
+ */
+export const getAllOfficers = async () => {
+  const officers = await Officer.findAll({
+    attributes: ['id', 'name', 'email', 'role', 'created_at'],
+    order: [['name', 'ASC']]
+  });
+  return officers;
+};
+
 export default {
   getTriageReports,
+  getMyAssignedTasks,
   getReportById,
   updateReport,
   getStats,
-  reclassifyReport
+  reclassifyReport,
+  createOfficer,
+  getAllOfficers
 };

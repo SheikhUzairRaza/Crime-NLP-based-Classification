@@ -5,17 +5,34 @@ import {
   getAdminReportById,
   updateAdminReport,
   getAdminStats,
-  reclassifyAdminReport
+  reclassifyAdminReport,
+  createOfficer,
+  getAllOfficers
 } from '../controllers/admin.controller.js';
 import { validate } from '../middlewares/validate.middleware.js';
 import {
   getReportsQuerySchema,
   getMyTasksQuerySchema,
   reportIdParamSchema,
-  updateReportSchema
+  updateReportSchema,
+  createOfficerSchema
 } from '../validations/admin.validation.js';
 
 const router = Router();
+
+// Officers Management Endpoints
+// POST /api/v1/admin/officers - Create officer (Admin only)
+router.post(
+  '/officers',
+  validate(createOfficerSchema, 'body'),
+  createOfficer
+);
+
+// GET /api/v1/admin/officers - List all officers (For case assignment dropdown)
+router.get(
+  '/officers',
+  getAllOfficers
+);
 
 // 5a. GET /api/v1/admin/reports (with query filters, officer_id filter, and pagination)
 router.get(

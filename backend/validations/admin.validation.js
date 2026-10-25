@@ -96,8 +96,20 @@ export const updateReportSchema = z
     }
   );
 
+/**
+ * Schema for validating POST /api/v1/admin/officers
+ */
+export const createOfficerSchema = z.object({
+  name: z.string().trim().min(2, 'Officer name must be at least 2 characters'),
+  email: z.string().trim().email('Must be a valid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  role: z.enum(['admin', 'officer']).default('officer')
+});
+
 export default {
   getReportsQuerySchema,
+  getMyTasksQuerySchema,
   reportIdParamSchema,
-  updateReportSchema
+  updateReportSchema,
+  createOfficerSchema
 };
