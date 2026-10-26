@@ -1,0 +1,271 @@
+text,category
+Received an email from 'Amazon' about a locked account. I logged in through the link and now my real account has orders I never made.,phishing_smishing
+Text message said my phone bill is overdue and to pay through a link or lose service. The page asked for my full card number and PIN.,phishing_smishing
+Someone rang saying they were my electricity company's refund department and asked me to confirm the code just sent to my mobile.,phishing_smishing
+A lookalike of our company's single sign-on page was emailed to staff and several people typed in their credentials.,phishing_smishing
+"whatsapp msg from unknown no: 'congrats u won, click here n enter ur bank details to claim' i did it, did i get scammed??",phishing_smishing
+A fake job interview invitation linked to a spoofed recruitment portal that harvested applicants' ID numbers and passwords.,phishing_smishing
+Scammers texted drivers that they owed an unpaid toll and sent them to a copy of the official payment website.,phishing_smishing
+"The email looked like it was from our principal asking teachers to open a shared salary sheet, but the login page was fake.",phishing_smishing
+A bank told me an account was opened in my name last week. I have never been to that branch.,identity_theft
+I applied for a student loan and was rejected because someone else already borrowed money using my details.,identity_theft
+Police arrested a man who used a coworker's stolen ID card to rent apartments and run up unpaid bills.,identity_theft
+My elderly father's pension is being collected by someone using his documents even though he did not apply.,identity_theft
+Someone took out a postpaid phone plan under my name and the debt collectors are now calling me.,identity_theft
+A woman learned that a stranger had been filing taxes with her national number for three years.,identity_theft
+"I keep receiving letters from companies about services I never ordered, all addressed to me at an old address.",identity_theft
+Thieves stole a purse with a driving licence and then used it to pass a verification check at a lender.,identity_theft
+Every spreadsheet on the shared drive got a strange extension and a text file asks us to pay in cryptocurrency to unlock them.,ransomware_malware
+A law firm's computers were frozen by attackers who said they would sell client files unless paid.,ransomware_malware
+I downloaded a game mod and now my antivirus keeps finding a trojan that opens websites by itself.,ransomware_malware
+The clinic could not access any patient records after a malicious email attachment was opened by a receptionist.,ransomware_malware
+A small shop's till system locked up and displayed a message demanding money within 72 hours.,ransomware_malware
+Researchers found an app on the store that secretly recorded keystrokes and sent them to a server.,ransomware_malware
+Our factory's machines stopped when the network was encrypted and a ransom note appeared on every screen.,ransomware_malware
+My laptop's webcam light turns on by itself and my files are being copied; I suspect remote access malware.,ransomware_malware
+I got a security alert that my email was opened from a device in another continent and my password was changed.,unauthorized_access_hacking
+A former intern logged into our CMS with an old password and replaced the homepage with insults.,unauthorized_access_hacking
+The university's online exam system was breached and answer keys were downloaded the night before.,unauthorized_access_hacking
+Someone took control of my smart TV and kept switching channels and changing settings from outside.,unauthorized_access_hacking
+A gaming account worth a lot of rare items was taken over after the owner reused an old password.,unauthorized_access_hacking
+Unknown people got into the company's file server through a forgotten test account.,unauthorized_access_hacking
+Our site went offline for two days after a flood of traffic from thousands of hijacked devices.,unauthorized_access_hacking
+My ex guessed my security answers and has been reading my cloud photos and messages.,unauthorized_access_hacking
+"A gym emailed all members that their names, phone numbers and card types were exposed due to a server misconfiguration.",data_breach
+Researchers discovered a public database holding millions of customer addresses from a food delivery app.,data_breach
+"The credit union notified us that attackers copied member records, including dates of birth.",data_breach
+An airline said passenger passport numbers were accessed in a cyberattack on its booking system.,data_breach
+A health app leaked the private notes of thousands of users to anyone with the link.,data_breach
+Employee tax forms were left on an open web server for months before someone noticed.,data_breach
+The school's learning platform exposed students' test results and parents' emails online.,data_breach
+A hacker forum is selling a file said to contain the personal details of customers of a telecom company.,data_breach
+Bought concert tickets from a seller on social media who sent fake PDFs and then deleted his account.,online_scam_fraud
+A man I met in a chat app convinced me to send money for an urgent customs fee on a gift he was sending.,online_scam_fraud
+The 'remote data entry job' asked me to buy my own equipment from their supplier and never paid me.,online_scam_fraud
+"I paid a deposit for a rental flat I saw advertised, but the owner turns out to be a fake name and the flat is not his.",online_scam_fraud
+"A website that sells discounted sneakers took my payment and never delivered, and the contact page is dead.",online_scam_fraud
+A stranger on a gaming platform sold me items and vanished after I paid first.,online_scam_fraud
+People were duped by a fake loan agent who charged processing fees upfront for loans that never came.,online_scam_fraud
+I got a message from 'my son' on a new number asking me to urgently pay a bill; it was not him.,online_scam_fraud
+A group of girls made a page mocking my weight and are sharing screenshots of my posts.,cyberbullying_harassment
+A stranger keeps commenting insults on every video I upload and sends me abusive messages.,cyberbullying_harassment
+My ex-boyfriend created fake accounts to post my photos and spread lies about me.,cyberbullying_harassment
+"People found my home address and posted it in a forum, urging others to harass me.",cyberbullying_harassment
+A teenager was driven out of an online game by players who spammed hateful messages at her.,cyberbullying_harassment
+Someone made a deepfake video of me and circulated it in our community chat.,cyberbullying_harassment
+Coworkers have been sending cruel anonymous emails about my accent for weeks.,cyberbullying_harassment
+After my post went viral I was flooded with threats and hate messages from strangers.,cyberbullying_harassment
+He threatens to send our private video chat to my parents unless I transfer money tonight.,online_extortion_sextortion
+A message says they hacked my webcam and recorded me and demands payment in Bitcoin or they will send it to my contacts.,online_extortion_sextortion
+A boy was threatened with the release of intimate photos he shared with a girl who turned out to be a fake profile.,online_extortion_sextortion
+Hackers who stole a clinic's patient data are demanding payment or they will post it publicly.,online_extortion_sextortion
+A woman was blackmailed with AI-generated explicit images using her face.,online_extortion_sextortion
+"The person keeps asking for more gift cards, saying he will post my pictures if I stop.",online_extortion_sextortion
+A shop owner got an email warning that a flood of traffic will take his website offline unless he pays a fee.,online_extortion_sextortion
+A student who shared a private picture with someone online is being threatened with exposure unless she pays.,online_extortion_sextortion
+My SIM stopped working and by evening my account had been emptied through the banking app.,online_banking_fraud
+There are several online card payments on my statement from other countries that I did not make.,online_banking_fraud
+A caller convinced me to install a remote-control app and then money was moved out of my account.,online_banking_fraud
+Our accounts team paid an invoice to changed bank details after an email that looked like it came from our supplier.,online_banking_fraud
+I tapped a payment request on my wallet app thinking I would receive money and my balance dropped instead.,online_banking_fraud
+An elderly woman was persuaded to transfer her savings to a 'protected account' that belonged to fraudsters.,online_banking_fraud
+Cash was withdrawn from my account using a cloned card after I used a damaged ATM.,online_banking_fraud
+I installed a fake bank app from a link in a text and my savings account was drained.,online_banking_fraud
+The token I bought lost all its value overnight when the developers withdrew the liquidity pool.,cryptocurrency_crime
+I connected my wallet to a fake airdrop website and signed a transaction; all my coins were gone minutes later.,cryptocurrency_crime
+The crypto exchange I used blocked my withdrawals and asked me to pay a 'verification fee' first.,cryptocurrency_crime
+A man was arrested for running a staking scheme that paid early investors with new investors' deposits.,cryptocurrency_crime
+A support agent in a chat asked for my recovery phrase and then my wallet was emptied.,cryptocurrency_crime
+A bug in a decentralised finance protocol was exploited to drain millions of dollars of tokens.,cryptocurrency_crime
+A widow was told by a caller to deposit cash into a bitcoin ATM to settle a fake debt.,cryptocurrency_crime
+A video promised to double any coins sent to an address; thousands of people sent coins and got nothing.,cryptocurrency_crime
+A website offers brand new films for free streaming without any licence from the studios.,intellectual_property_piracy
+Someone is selling cracked versions of our design software on a marketplace.,intellectual_property_piracy
+A competitor copied our mobile game's art and mechanics and released a nearly identical clone.,intellectual_property_piracy
+A shop used my photographs in its adverts without asking or paying me.,intellectual_property_piracy
+A seller is offering set-top boxes preloaded with pirated television channels.,intellectual_property_piracy
+A tutoring centre records paid online courses and hands out the videos to its students.,intellectual_property_piracy
+A website sells fake licence keys for popular operating systems.,intellectual_property_piracy
+An engineer copied our source code to a personal drive just before joining a rival company.,insider_threat_trade_secret_theft
+A sales manager emailed our complete client list to his private address on his last day.,insider_threat_trade_secret_theft
+A bank employee browsed accounts of famous customers and leaked information to a journalist.,insider_threat_trade_secret_theft
+A contractor photographed our confidential prototypes and sold the pictures to a competitor.,insider_threat_trade_secret_theft
+A nurse looked up a celebrity's medical file without reason and told others.,insider_threat_trade_secret_theft
+A laid-off administrator kept a hidden login to our systems and is still using it.,insider_threat_trade_secret_theft
+A colleague passed our bid price to a supplier before submissions closed.,insider_threat_trade_secret_theft
+An employee posted internal salary sheets on a public forum.,insider_threat_trade_secret_theft
+A man was found dead beside a canal with stab wounds and police have opened a murder inquiry.,homicide
+My cousin was shot dead outside his shop last night by two men on a motorbike.,homicide
+A woman was strangled in her flat and her partner has been arrested on suspicion of murder.,homicide
+Two people died in a drive-by shooting in the early hours of the morning.,homicide
+A teenager died after being stabbed during a fight outside a party.,homicide
+Skeletal remains found beneath a patio are being treated as a homicide.,homicide
+A taxi driver was murdered and his car was found burned in a field.,homicide
+Police said the neighbour's death was not natural and arrested a suspect.,homicide
+A man punched me in the face outside a bar after we argued about a spilled drink.,assault_battery
+A bus driver was hit by two passengers who refused to pay the fare.,assault_battery
+Three boys beat me on my way home and I ended up with a broken nose.,assault_battery
+A nurse was slapped by a patient's relative in the casualty department.,assault_battery
+"After a small car collision, the other driver got out and hit me with a stick.",assault_battery
+A referee needed hospital treatment after spectators attacked him at the end of the match.,assault_battery
+A shopkeeper was hit with an iron rod by a customer who refused to pay.,assault_battery
+My neighbour attacked my father with a cricket bat over a parking space.,assault_battery
+Two men with knives took my phone and wallet near the metro station.,robbery
+A masked man pointed a gun at the cashier and emptied the till.,robbery
+Two men on a motorbike snatched a woman's bag at gunpoint and sped off.,robbery
+A cash-in-transit van was ambushed by armed men who fled with the money.,robbery
+Three guys cornered me in an alley and forced me to hand over my jacket and shoes.,robbery
+A jewellery store was held up by robbers with pistols who made everyone lie on the floor.,robbery
+Men followed me from the bank and threatened me until I gave them the cash I withdrew.,robbery
+"A driver was threatened with a blade by his passenger, who took his earnings and phone.",robbery
+Armed men took my brother from outside his office and called us asking for ransom.,kidnapping
+A schoolgirl vanished on her way home and her family received a ransom message.,kidnapping
+A toddler was taken from a shopping cart in a mall by a woman who walked out with him.,kidnapping
+"A woman was forced into a van, held for hours and managed to escape.",kidnapping
+A father flew out of the country with his children despite a court order granting custody to the mother.,kidnapping
+A doctor was abducted on his way to work and released after the family paid.,kidnapping
+My daughter has been missing since yesterday and someone called demanding money for her return.,kidnapping
+Two men grabbed a businessman at a petrol station and drove away with him.,kidnapping
+A woman reported that an acquaintance sexually assaulted her after a party.,sexual_assault
+A stranger grabbed and sexually assaulted a woman as she walked home at night.,sexual_assault
+A passenger said a driver groped her during a ride and refused to stop the car.,sexual_assault
+A classmate assaulted me at a gathering and I have been too afraid to tell anyone.,sexual_assault
+A girl told a counsellor that a relative had been sexually abusing her for years.,sexual_assault
+A man was arrested after sexually assaulting a woman in a lift.,sexual_assault
+A patient reported sexual contact during a medical examination that was not necessary.,sexual_assault
+My boss keeps commenting on my body and asks me to meet him alone after work.,sexual_harassment
+A coworker keeps sharing sexual jokes in the office group even after I asked him to stop.,sexual_harassment
+My supervisor suggested I would be promoted if I agreed to a relationship with him.,sexual_harassment
+A man on the bus kept whispering sexual remarks at me and would not stop.,sexual_harassment
+A gym trainer makes inappropriate gestures and remarks towards women members.,sexual_harassment
+A colleague exposed himself during a video meeting.,sexual_harassment
+My husband beats me whenever he is angry and I am afraid to stay in the house.,domestic_violence_child_abuse
+Neighbours heard a woman screaming and being hit and called the police.,domestic_violence_child_abuse
+A teacher noticed bruises on a pupil who said his stepfather hits him.,domestic_violence_child_abuse
+The baby has unexplained fractures and the parents' explanation does not add up.,domestic_violence_child_abuse
+An elderly woman is being hit by her son who wants her pension.,domestic_violence_child_abuse
+My ex keeps turning up at my workplace and calls from different numbers.,threats_stalking
+A stranger photographs my windows from a parked car every evening.,threats_stalking
+I received letters warning me that I would regret testifying.,threats_stalking
+A man told a doctor he would hurt him if he did not leave town.,threats_stalking
+A woman found a tracking device hidden under her car.,threats_stalking
+Local men demand a monthly payment from my shop and say they will smash it if I stop.,extortion_blackmail
+I got a call demanding two million rupees and warning something would happen to my family.,extortion_blackmail
+A builder is told to pay a share of his profits to a local group or his site will be shut down.,extortion_blackmail
+An inspector says he will cancel my licence unless I keep paying him every month.,extortion_blackmail
+Men on the road demand cash from truck drivers before letting them pass.,extortion_blackmail
+A man threatens to publish my old photos unless I give him money.,extortion_blackmail
+"A group attacked me and shouted racist slurs, telling me to go back to my country.",hate_crime
+The mosque's wall was covered in hateful slogans and the door was set alight.,hate_crime
+A synagogue had its windows smashed and antisemitic graffiti painted on the wall.,hate_crime
+I was beaten because I am transgender.,hate_crime
+Our family shop run by immigrants was vandalised with messages telling us to leave.,hate_crime
+"Teenagers beat a disabled man, mocked him and filmed it.",hate_crime
+A student's hijab was pulled off and she was hit on campus.,hate_crime
+My cousin was killed by her brothers because she married a man she chose herself.,honour_crimes_forced_marriage
+My family locks me in the house so I cannot meet the boy I like.,honour_crimes_forced_marriage
+My relatives took my passport on a trip abroad to force me into marriage.,honour_crimes_forced_marriage
+"A couple who eloped are being hunted by the girl's family, who have threatened to kill them.",honour_crimes_forced_marriage
+My brothers beat me because I refused the man they picked for me.,honour_crimes_forced_marriage
+A mob caught a suspected pickpocket and beat him until the police arrived.,mob_violence_lynching
+Villagers lynched a stranger after a false message went viral on social media.,mob_violence_lynching
+A woman accused of witchcraft was paraded through the village by an angry mob.,mob_violence_lynching
+A crowd dragged a driver out of his car and beat him after an accident.,mob_violence_lynching
+A mob set fire to the house of a man accused of insulting religion.,mob_violence_lynching
+A mentally ill man was beaten to death by people who thought he was a thief.,mob_violence_lynching
+A crowd stormed a police station and attacked a detainee.,mob_violence_lynching
+A gang forces every stall in the market to pay them weekly.,organized_crime_gang
+A gang leader runs his operations from prison using smuggled phones.,organized_crime_gang
+A mafia-style group threatens witnesses and officials to protect its business.,organized_crime_gang
+A recruiter promised me a job abroad then took my passport and made me work without pay.,human_trafficking
+Police rescued workers locked in dormitories who had not been paid for months.,human_trafficking
+Children are made to beg at traffic lights and an adult takes all their money.,human_trafficking
+Women lured by fake modelling offers were forced into exploitative work abroad.,human_trafficking
+Smugglers charged migrants huge sums and then forced them to work to pay off the debt.,human_trafficking
+A domestic worker was confined in a house and her passport was taken.,human_trafficking
+Someone broke in through the back window while we were on holiday and took laptops and jewellery.,burglary
+The shop shutters were forced overnight and goods worth half a million were taken.,burglary
+A pharmacy was broken into at night and medicines and cash were stolen.,burglary
+Our office was burgled and the safe was emptied.,burglary
+A flat was broken into while the owners were at work and electronics were taken.,burglary
+Thieves cut the fence of a warehouse at night and removed stock.,burglary
+My garage was broken into and my power tools were taken.,burglary
+A laptop was stolen from a cafe table while I went to the counter.,theft
+My parcel was stolen from my doorstep before I got home.,theft
+A woman had her bag taken from the back of her chair at a restaurant.,theft
+A man was caught on camera shoplifting clothes from a store.,theft
+My car was stolen from outside my house last night.,motor_vehicle_theft
+A motorbike was taken from the mall's parking lot.,motor_vehicle_theft
+A man forced the driver out of his car at a traffic light and drove off.,motor_vehicle_theft
+Police recovered a stolen car with cloned number plates.,motor_vehicle_theft
+A truck was hijacked on the highway.,motor_vehicle_theft
+A rental car was stolen while the tourists were sightseeing.,motor_vehicle_theft
+A warehouse fire was ruled arson after investigators found traces of petrol.,arson_vandalism
+Someone set my car on fire outside my house.,arson_vandalism
+Graffiti was sprayed all over the school and windows were smashed.,arson_vandalism
+Car tyres were slashed along our street overnight.,arson_vandalism
+A group destroyed the benches and bus shelter in the park.,arson_vandalism
+A shop owner believes a rival set fire to his shop.,arson_vandalism
+A man moved into my empty flat and refuses to leave.,trespass_land_grab
+Squatters took over an abandoned factory and sold the shops to buyers.,trespass_land_grab
+A powerful family blocked the village path we have always used.,trespass_land_grab
+A man used forged salary slips to get a loan from our bank and never repaid it.,financial_fraud_forgery
+The same plot of land was sold to several buyers using forged papers.,financial_fraud_forgery
+A company paid suppliers with cheques that bounced because the account was empty.,financial_fraud_forgery
+A scheme promised 10 percent monthly returns and collapsed with all the investors' money.,financial_fraud_forgery
+Fake share certificates were issued to cooperative members.,financial_fraud_forgery
+A man staged a car crash to claim insurance money.,financial_fraud_forgery
+Fake banknotes were found in a shop's till.,financial_fraud_forgery
+Our bookkeeper moved company money into her personal account over two years.,embezzlement_corruption
+The charity's treasurer spent donations on himself.,embezzlement_corruption
+A cashier took small amounts from the till until a large shortage appeared.,embezzlement_corruption
+A customs officer took cash to let a shipment through without checks.,embezzlement_corruption
+A payroll officer was paying salaries to employees who do not exist.,embezzlement_corruption
+The clinic billed my insurance for a surgery I never had.,medical_fraud_malpractice
+"A pharmacy gave me medicine that had expired, with a changed label.",medical_fraud_malpractice
+A healer took our money promising to cure cancer and it did nothing.,medical_fraud_malpractice
+A dentist reused unsterilised instruments and several patients got infections.,medical_fraud_malpractice
+A restaurant served old meat that had been relabelled as fresh.,consumer_fraud_adulteration
+Spices bought from this shop contain dye and sawdust.,consumer_fraud_adulteration
+Bottled water turned out to be ordinary tap water.,consumer_fraud_adulteration
+My gym closed down and refused to refund our memberships.,consumer_fraud_adulteration
+A shopkeeper uses rigged weights.,consumer_fraud_adulteration
+A coaching institute bribed invigilators to guarantee pass marks.,exam_cheating_academic_fraud
+A man was arrested with small bags of cocaine during a roadside search.,drug_offences
+A student was found with pills in his dormitory room.,drug_offences
+Police seized twenty kilos of heroin hidden in a shipping container.,drug_offences
+"I think my neighbours sell drugs, people visit their flat all night.",drug_offences
+A courier was arrested with drug packages at the border.,drug_offences
+A gang uses teenagers to deliver drugs.,drug_offences
+"Police raided a house and found a drug lab, scales and cash.",drug_offences
+Drunk men were causing a disturbance in a restaurant and smashing furniture.,public_disorder_weapons
+A man was arrested for carrying an unlicensed pistol into a shopping mall.,public_disorder_weapons
+Police found guns and ammunition stored illegally in a rented warehouse.,public_disorder_weapons
+A teenager brought a knife to school.,public_disorder_weapons
+Looters smashed shops during the blackout.,public_disorder_weapons
+A van was driven into a crowd in what police called a terrorist attack.,terrorism_extremism
+An unattended bag at the station led to an evacuation after a bomb threat.,terrorism_extremism
+A man posted online threats to attack a festival and was arrested.,terrorism_extremism
+A blast in the market killed several people and police suspect a bomb.,terrorism_extremism
+Police defused an explosive device found near a bus stop.,terrorism_extremism
+A man was arrested for planning an attack on a government building.,terrorism_extremism
+Players were paid to fix a match for a betting syndicate.,illegal_gambling
+A cafe keeps slot machines in a back room.,illegal_gambling
+A boat carrying undeclared electronics was stopped along the coast.,smuggling_contraband
+Phones sold in the market were smuggled in with altered IMEI numbers.,smuggling_contraband
+A man was caught carrying protected birds hidden in his car.,smuggling_contraband
+Party workers handed out cash and food to voters the night before the election.,electoral_fraud
+We saw extra ballot papers being put into the box.,electoral_fraud
+Fake messages said polling was cancelled in my area.,electoral_fraud
+A man was filmed beating a dog with a stick.,animal_cruelty_environmental
+A factory dumps chemical waste into the river at night.,animal_cruelty_environmental
+Dogs were found fighting in a barn and some were badly injured.,animal_cruelty_environmental
+Illegal sand mining is damaging the foundations of the bridge.,animal_cruelty_environmental
+A circus keeps its animals in terrible conditions.,animal_cruelty_environmental
+A driver crashed into a parked car while drunk.,traffic_offence
+Cars race on our street at very high speeds late at night.,traffic_offence
+A truck driver was driving without a licence and without sleep.,traffic_offence
+A driver using his phone ran over a pedestrian.,traffic_offence
+A man pretended to be a police officer and took money from motorists.,other_crime
+A student sent a fake bomb threat to the school to avoid a test.,other_crime
+A news article said burglary rates are rising and advised people to check their locks.,non_crime
