@@ -8,7 +8,13 @@ import { ApiResponse } from '../utils/apiResponse.js';
  */
 export const getAdminReports = async (req, res, next) => {
   try {
-    const query = req.validatedQuery || req.query;
+    const query = { ...(req.validatedQuery || req.query) };
+
+    // Strict RBAC: Field officers can ONLY view reports assigned to them
+    if (req.user?.role === 'officer') {
+      query.officer_id = req.user.id;
+    }
+
     const result = await adminService.getTriageReports(query);
 
     return ApiResponse.send(
@@ -50,7 +56,7 @@ export const getMyTasks = async (req, res, next) => {
 export const getAdminReportById = async (req, res, next) => {
   try {
     const reportId = req.validatedParams?.id || req.params.id;
-    const report = await adminService.getReportById(reportId);
+    const report = await adminService.getReportById(reportId, req.user);
 
     return ApiResponse.send(
       res,
@@ -90,6 +96,9 @@ export const updateAdminReport = async (req, res, next) => {
  */
 export const getAdminStats = async (req, res, next) => {
   try {
+    if (req.user?.role !== 'admin') {
+      throw ApiError.forbidden('Only administrators can view aggregate system statistics');
+    }
     const stats = await adminService.getStats();
 
     return ApiResponse.send(
@@ -110,7 +119,7 @@ export const getAdminStats = async (req, res, next) => {
 export const reclassifyAdminReport = async (req, res, next) => {
   try {
     const reportId = req.validatedParams?.id || req.params.id;
-    const reclassifiedReport = await adminService.reclassifyReport(reportId);
+    const reclassifiedReport = await adminService.reclassifyReport(reportId, req.user);
 
     return ApiResponse.send(
       res,

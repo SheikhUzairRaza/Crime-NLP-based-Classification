@@ -121,7 +121,7 @@ export const getMyAssignedTasks = async (officerId, query = {}) => {
  * @param {number|string} id - Report ID
  * @returns {Promise<Report>}
  */
-export const getReportById = async (id) => {
+export const getReportById = async (id, currentUser = null) => {
   const report = await Report.findByPk(id, {
     include: [
       {
@@ -134,6 +134,11 @@ export const getReportById = async (id) => {
 
   if (!report) {
     throw ApiError.notFound('Report not found');
+  }
+
+  // Strict RBAC: Field officers can only view reports assigned to them
+  if (currentUser?.role === 'officer' && report.officer_id !== currentUser.id) {
+    throw ApiError.forbidden('Access denied: You can only view reports assigned to you');
   }
 
   return report;
@@ -153,6 +158,16 @@ export const updateReport = async (id, updateData = {}, currentUser = {}) => {
 
   if (!report) {
     throw ApiError.notFound('Report not found');
+  }
+
+  // Strict RBAC: Field officers can only update reports assigned to them
+  if (currentUser?.role === 'officer') {
+    if (report.officer_id !== currentUser.id) {
+      throw ApiError.forbidden('Access denied: You can only update reports assigned to you');
+    }
+    if (updateData.officer_id !== undefined && updateData.officer_id !== currentUser.id) {
+      throw ApiError.forbidden('Access denied: Field officers cannot reassign reports');
+    }
   }
 
   // Allowed status values for triage updates: Under Investigation, Resolved, Dismissed
@@ -277,11 +292,16 @@ export const getStats = async () => {
  * @param {number|string} id - Report ID
  * @returns {Promise<Report>}
  */
-export const reclassifyReport = async (id) => {
+export const reclassifyReport = async (id, currentUser = null) => {
   const report = await Report.findByPk(id);
 
   if (!report) {
     throw ApiError.notFound('Report not found');
+  }
+
+  // Strict RBAC: Field officers can only reclassify reports assigned to them
+  if (currentUser?.role === 'officer' && report.officer_id !== currentUser.id) {
+    throw ApiError.forbidden('Access denied: You can only reclassify reports assigned to you');
   }
 
   // Call ML microservice
