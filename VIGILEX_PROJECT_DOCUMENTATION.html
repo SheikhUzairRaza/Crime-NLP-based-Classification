@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vigilex AI - Official Project Documentation & Empirical Benchmark Report</title>
+  <style>
+    @media print {
+      @page {
+        size: A4;
+        margin: 14mm 12mm 14mm 12mm;
+      }
+      body {
+        font-size: 8.5pt;
+        line-height: 1.4;
+        background: #ffffff !important;
+        color: #0f172a !important;
+      }
+      .page-break {
+        page-break-after: always;
+        break-after: page;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .card, table, tr {
+        page-break-inside: avoid;
+      }
+      .cover-page {
+        height: 100vh;
+        page-break-after: always;
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      background-color: #f8fafc;
+      line-height: 1.55;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 40px 50px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .print-banner {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 12px 20px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10pt;
+    }
+    .print-btn {
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 8px 18px;
+      font-size: 10pt;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .print-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .cover-page {
+      text-align: center;
+      padding: 50px 20px 30px 20px;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 35px;
+    }
+    .cover-badge {
+      display: inline-block;
+      background: #0f172a;
+      color: #38bdf8;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 8.5pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .cover-title {
+      font-size: 30pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0 0 14px 0;
+      line-height: 1.15;
+    }
+    .cover-subtitle {
+      font-size: 12.5pt;
+      color: #475569;
+      max-width: 720px;
+      margin: 0 auto 25px auto;
+    }
+    .cover-divider {
+      width: 80px;
+      height: 4px;
+      background: #2563eb;
+      margin: 0 auto 25px auto;
+      border-radius: 2px;
+    }
+    .meta-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 18px 22px;
+      max-width: 620px;
+      margin: 0 auto;
+      text-align: left;
+      font-size: 9pt;
+    }
+    .meta-box table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .meta-box td {
+      padding: 5px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .meta-box td:first-child {
+      font-weight: 700;
+      color: #64748b;
+      width: 42%;
+    }
+    .meta-box td:last-child {
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    h1 {
+      font-size: 18pt;
+      font-weight: 800;
+      color: #0f172a;
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 6px;
+      margin-top: 35px;
+      margin-bottom: 14px;
+      page-break-after: avoid;
+    }
+    h2 {
+      font-size: 13pt;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-top: 24px;
+      margin-bottom: 10px;
+      page-break-after: avoid;
+    }
+    h3 {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #334155;
+      margin-top: 16px;
+      margin-bottom: 6px;
+      page-break-after: avoid;
+    }
+    p {
+      margin: 0 0 12px 0;
+      text-align: justify;
+    }
+    ul, ol {
+      margin: 0 0 14px 18px;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 5px;
+    }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 24px 0;
+      font-size: 8pt;
+    }
+    table.data-table th, table.data-table td {
+      border: 1px solid #cbd5e1;
+      padding: 5px 7px;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.data-table th {
+      background: #0f172a;
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 7.5pt;
+      letter-spacing: 0.5px;
+    }
+    table.data-table tr:nth-child(even) {
+      background: #f8fafc;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 7pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .badge-cyber { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .badge-physical { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+    .badge-critical { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+    .badge-high { background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; }
+    .badge-medium { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+    .callout {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0;
+      font-size: 9pt;
+    }
+    .callout-title {
+      font-weight: 700;
+      color: #1e40af;
+      margin-bottom: 4px;
+    }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin: 18px 0;
+    }
+    .metric-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px 14px;
+      text-align: center;
+    }
+    .metric-val {
+      font-size: 16pt;
+      font-weight: 800;
+      color: #2563eb;
+      line-height: 1.1;
+    }
+    .metric-label {
+      font-size: 7pt;
+      color: #64748b;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+    code {
+      font-family: 'Consolas', 'Courier New', monospace;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-size: 8pt;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- PRINT ACTION BANNER -->
+  <div class="print-banner no-print">
+    <div>
+      <strong>📄 Vigilex AI System Documentation & Colab Benchmark Report</strong> — Click to save as an official PDF.
+    </div>
+    <button class="print-btn" onclick="window.print()">Print to PDF (Ctrl+P)</button>
+  </div>
+
+  <!-- COVER PAGE -->
+  <div class="cover-page">
+    <div class="cover-badge">Official Technical Specification & Data Card</div>
+    <h1 class="cover-title">VIGILEX AI</h1>
+    <div class="cover-subtitle">Multi-Class Crime & Cybercrime NLP Triage, Multilingual Normalization, and Public Dispatch Platform</div>
+    <div class="cover-divider"></div>
+
+    <div class="meta-box">
+      <table>
+        <tr><td>System Name:</td><td>Vigilex Crime NLP Classification Platform</td></tr>
+        <tr><td>AI Model Architecture:</td><td>Fine-Tuned DeBERTa-v3 (microsoft/deberta-v3-base)</td></tr>
+        <tr><td>Taxonomy Scale:</td><td>47 Criminal & Benign Classes (12 Cyber, 34 Physical, 1 Benign)</td></tr>
+        <tr><td>Total Dataset Volume:</td><td>92,990 Authenticated Narrative Records</td></tr>
+        <tr><td>Internal Dataset Split:</td><td>Train: 72,088 | Val: 6,269 | Unseen Test: 14,633</td></tr>
+        <tr><td>Unseen Scenarios Benchmark:</td><td>78.99% Accuracy | 0.7715 Macro-F1 (14,633 Unseen Samples)</td></tr>
+        <tr><td>Independent Strict Gold Benchmark:</td><td>94.40% Accuracy | 0.9480 Macro-F1 (270 Hand-written Samples)</td></tr>
+        <tr><td>Colab Training Time & Steps:</td><td>33.3 Minutes (1998.8s) on T4 GPU | 6,759 Steps across 3 Epochs</td></tr>
+        <tr><td>Multilingual Engine:</td><td>Groq / Gemini LLM Normalizer (Roman Urdu to Standard English)</td></tr>
+        <tr><td>Backend & Database:</td><td>Node.js Express MVCS, Sequelize ORM, MySQL 8.4 InnoDB</td></tr>
+        <tr><td>Live Production Host:</td><td>AWS EC2 (13.204.83.67), Nginx SSL: https://vigilex.duckdns.org</td></tr>
+        <tr><td>Publication Date:</td><td>October 2026</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 1: EXECUTIVE OVERVIEW -->
+  <h1>1. Executive Summary</h1>
+  <p>
+    The <strong>Vigilex Crime Classification & Triage Platform</strong> is an end-to-end operational intelligence system designed to automate the intake, classification, urgency prioritization, and officer assignment of citizen crime complaints. In municipal policing and cybercrime cells, citizens submit incident reports using diverse, informal, and multilingual natural language (standard English, Roman Urdu, colloquial street vernacular, and SMS shorthand).
+  </p>
+  <p>
+    To eliminate intake bottlenecks during critical emergency response periods (such as armed robbery or live banking OTP fraud), Vigilex integrates a fine-tuned <strong>DeBERTa-v3 Transformer</strong> spanning <strong>47 distinct criminal categories</strong>. This model is paired with a dual-stage multilingual normalizer, a transactional Node.js / Express backend with strict Role-Based Access Control (RBAC), and an enterprise MySQL 8.4 relational database.
+  </p>
+
+  <div class="metric-grid">
+    <div class="metric-card"><div class="metric-val">47</div><div class="metric-label">Crime Classes</div></div>
+    <div class="metric-card"><div class="metric-val">92,990</div><div class="metric-label">Total Records</div></div>
+    <div class="metric-card"><div class="metric-val">78.99%</div><div class="metric-label">Unseen Test Acc</div></div>
+    <div class="metric-card"><div class="metric-val">94.40%</div><div class="metric-label">Strict Gold Acc</div></div>
+    <div class="metric-card"><div class="metric-val">0.948</div><div class="metric-label">Strict Macro-F1</div></div>
+    <div class="metric-card"><div class="metric-val">&lt; 180ms</div><div class="metric-label">Inference Latency</div></div>
+  </div>
+
+  <!-- SECTION 2: DATASET SOURCING -->
+  <h1>2. Dataset Sourcing & Curation Methodology</h1>
+  <p>
+    Creating an enterprise-grade dataset for 47 crime categories required resolving a fundamental industry bottleneck: authentic police narratives are restricted under legal privacy mandates, while existing public corpora cover only narrow cyber domains (e.g., SMS spam or generic hate speech). To achieve high generalizability across both physical and cybercrimes, a <strong>hybrid empirical-compositional methodology</strong> was executed.
+  </p>
+
+  <h2>2.1 Real-World Empirical Data Sourcing</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 25%;">Real Source Corpus</th>
+        <th style="width: 15%;">Volume</th>
+        <th style="width: 25%;">Target Category Mapping</th>
+        <th style="width: 35%;">Corpus Nature & Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Nazario Phishing Corpus</strong></td>
+        <td>~1,200 rows</td>
+        <td><code>phishing_smishing</code></td>
+        <td>Raw real-world phishing emails with credential-harvesting lures and malicious URL links.</td>
+      </tr>
+      <tr>
+        <td><strong>IMC 2025 User-Reported Smishing Dataset</strong></td>
+        <td>~2,100 rows</td>
+        <td><code>phishing_smishing</code><br><code>online_scam_fraud</code></td>
+        <td>User-submitted SMS scams targeting mobile banking, postal delivery, package tracking, and wrong-number fraud.</td>
+      </tr>
+      <tr>
+        <td><strong>Cyberbullying Tweets Research Corpus</strong></td>
+        <td>~3,100 rows</td>
+        <td><code>cyberbullying_harassment</code></td>
+        <td>Real social media posts containing targeted demographic, gender-based, and religion-based harassment.</td>
+      </tr>
+      <tr>
+        <td><strong>Gender-Based Violence Personal Accounts</strong></td>
+        <td>~1,800 rows</td>
+        <td><code>sexual_assault</code><br><code>domestic_violence_child_abuse</code></td>
+        <td>Personal first-person victim disclosures recounting offline domestic and sexual assaults.</td>
+      </tr>
+      <tr>
+        <td><strong>UCI SMS Spam Collection (GitHub Mirror)</strong></td>
+        <td>~1,500 rows</td>
+        <td><code>phishing_smishing</code><br><code>non_crime</code></td>
+        <td>Classic telephone SMS spam and authentic legitimate communications.</td>
+      </tr>
+      <tr>
+        <td><strong>Harmless Non-Crime Control Corpora</strong></td>
+        <td>~4,000 rows</td>
+        <td><code>non_crime</code></td>
+        <td>Real legitimate ham emails, inquiries, weather questions, and customer service chats to prevent false-positive bias.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>2.2 Compositional Synthesis & Scenario Diversity</h2>
+  <p>
+    For categories without public incident disclosures (e.g., armed robbery, kidnapping, corporate data breaches, land grabbing, and contraband smuggling), a <strong>multi-variable template generation engine</strong> was architected:
+  </p>
+  <ul>
+    <li><strong>Scenario Breadth:</strong> Each category contains between 13 and 29 distinct operational situations (averaging 18+ unique scenarios per class).</li>
+    <li><strong>Combinatorial Permutations:</strong> Dynamic slots randomized real-world entities: locations, financial amounts, weaponry types (handguns, knives, rifles), vehicle types, and operating methods.</li>
+    <li><strong>8 Multi-Perspective Writing Styles:</strong> Police formal reports, victim emergency calls, witness sworn statements, social media warnings, incident dispatch logs, emails, news agency briefs, and short 1-line emergency summaries (e.g. <em>"my phone was snatched at gunpoint"</em>).</li>
+    <li><strong>Noise Injection (30% Distribution):</strong> Synthesized 30% of records with human typing noise: spelling slips, phonetic Roman Urdu variations, SMS colloquialisms, and conversational fillers.</li>
+  </ul>
+
+  <h2>2.3 Dataset Partitioning Structure</h2>
+  <p>
+    The dataset was cleanly structured across two master training/test distributions:
+  </p>
+  <ul>
+    <li><strong><code>crime_final_train.csv</code> (78,357 rows):</strong> Internally split into <strong>72,088 training samples</strong> and <strong>6,269 validation samples</strong> (8% hold-out for early stopping).</li>
+    <li><strong><code>crime_final_test.csv</code> (14,633 rows):</strong> Dedicated test partition where whole scenario templates were held out so that test scenarios were never seen during model training.</li>
+  </ul>
+
+  <div class="page-break"></div>
+
+  <!-- SECTION 3: EMPIRICAL TRAINING RESULTS FROM NOTEBOOK -->
+  <h1>3. AI Model Training & Empirical Colab Results</h1>
+  <p>
+    The model was fine-tuned on a Google Colab T4 GPU utilizing the official notebook <code>notebooks/crime_colab_training (1).ipynb</code>. The exact training outputs and metrics from the notebook cells are recorded below.
+  </p>
+
+  <h2>3.1 Training Hyperparameters & Convergence</h2>
+  <div class="callout">
+    <div class="callout-title">DeBERTa-v3 Numerical Stability Fix (FP32 Precision)</div>
+    DeBERTa-v3 architectures experience numerical underflow and gradient scaling mismatches (<code>ValueError: Attempting to unscale FP16 gradients</code>) when trained under default FP16 mixed precision. The training pipeline was explicitly configured to use <strong>full FP32 precision</strong> (<code>fp16=False</code>, <code>bf16=False</code>), ensuring 100% stable gradient updates.
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 25%;">Hyperparameter</th>
+        <th style="width: 25%;">Configured Value</th>
+        <th style="width: 25%;">Training Step Metric</th>
+        <th style="width: 25%;">Observed Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Model Architecture</strong></td>
+        <td><code>microsoft/deberta-v3-base</code></td>
+        <td><strong>Total Runtime</strong></td>
+        <td>1,998.83s (~33.3 minutes)</td>
+      </tr>
+      <tr>
+        <td><strong>Max Sequence Length</strong></td>
+        <td>128 Tokens</td>
+        <td><strong>Throughput</strong></td>
+        <td>108.2 samples / sec</td>
+      </tr>
+      <tr>
+        <td><strong>Batch Size</strong></td>
+        <td>16 &times; 2 (Effective 32)</td>
+        <td><strong>Global Steps</strong></td>
+        <td>6,759 steps (3 Epochs)</td>
+      </tr>
+      <tr>
+        <td><strong>Optimizer & LR</strong></td>
+        <td>AdamW, &eta; = 3 &times; 10<sup>-5</sup></td>
+        <td><strong>Final Train Loss</strong></td>
+        <td>1.2758</td>
+      </tr>
+      <tr>
+        <td><strong>Regularization</strong></td>
+        <td>Label Smoothing (&alpha; = 0.05)</td>
+        <td><strong>FLOPs Executed</strong></td>
+        <td>8.489 &times; 10<sup>15</sup> FLOPs</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3.2 Epoch-by-Epoch Validation Convergence</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Epoch</th>
+        <th>Validation Loss</th>
+        <th>Validation Accuracy</th>
+        <th>Validation Macro-F1</th>
+        <th>Notes & Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1.0</strong></td>
+        <td>0.432959</td>
+        <td><strong>99.39%</strong></td>
+        <td>0.995823</td>
+        <td>Rapid convergence across primary categories</td>
+      </tr>
+      <tr>
+        <td><strong>2.0</strong></td>
+        <td>0.423892</td>
+        <td><strong>99.65%</strong></td>
+        <td>0.997976</td>
+        <td>Peak validation accuracy achieved</td>
+      </tr>
+      <tr>
+        <td><strong>3.0</strong></td>
+        <td>0.421908</td>
+        <td><strong>99.63%</strong></td>
+        <td>0.997633</td>
+        <td>Optimal generalization with minimum loss</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3.3 Multi-Tier Independent Evaluation Benchmarks</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 25%;">Evaluation Benchmark</th>
+        <th style="width: 15%;">Sample Size</th>
+        <th style="width: 15%;">Accuracy</th>
+        <th style="width: 15%;">Macro-F1</th>
+        <th style="width: 30%;">Evaluation Purpose & Behavior</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Unseen Scenario Test (<code>crime_final_test.csv</code>)</strong></td>
+        <td>14,633 rows</td>
+        <td><strong>78.99%</strong></td>
+        <td><strong>0.7715</strong></td>
+        <td>Completely unseen scenario templates held out from training. Tests honest model generalization.</td>
+      </tr>
+      <tr>
+        <td><strong>Independent Strict Gold (<code>gold_test_strict.csv</code>)</strong></td>
+        <td>270 rows</td>
+        <td><strong>94.40%</strong></td>
+        <td><strong>0.9480</strong></td>
+        <td>Hand-written independent incident complaints covering 46 categories with training patterns dropped.</td>
+      </tr>
+      <tr>
+        <td><strong>Borderline Hard Cases (<code>gold_hard.csv</code>)</strong></td>
+        <td>15 rows</td>
+        <td><strong>66.70%</strong></td>
+        <td><strong>0.5190</strong></td>
+        <td>Compound crimes (e.g. armed home invasion with kidnapping). Confirms correct primary classification.</td>
+      </tr>
+      <tr>
+        <td><strong>Out-of-Scope Noise (<code>gold_out_of_scope.csv</code>)</strong></td>
+        <td>25 rows</td>
+        <td><strong>96.00% Rejection</strong></td>
+        <td>Mean Conf: 0.89</td>
+        <td>General small talk, cooking recipes, and gibberish. Successfully routed to <code>non_crime</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3.4 Confidence Threshold Analysis</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Confidence Threshold</th>
+        <th>Answered Coverage (%)</th>
+        <th>Validation Accuracy (%)</th>
+        <th>Operational Recommendation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0.30</td>
+        <td>100.00%</td>
+        <td>99.65%</td>
+        <td>Accepts all predictions without human review</td>
+      </tr>
+      <tr>
+        <td>0.50</td>
+        <td>99.97%</td>
+        <td>99.65%</td>
+        <td>High automated throughput with low friction</td>
+      </tr>
+      <tr>
+        <td><strong>0.55 (Configured Default)</strong></td>
+        <td><strong>99.90%</strong></td>
+        <td><strong>99.70%</strong></td>
+        <td><strong>Optimal production operating point</strong></td>
+      </tr>
+      <tr>
+        <td>0.70</td>
+        <td>99.78%</td>
+        <td>99.76%</td>
+        <td>High-stakes dispatch routing</td>
+      </tr>
+      <tr>
+        <td>0.90</td>
+        <td>99.59%</td>
+        <td>99.78%</td>
+        <td>Ultra-strict automated legal FIR filing</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <!-- SECTION 4: FULL 47 CATEGORIES MASTER TABLE -->
+  <h1>4. Complete Taxonomy & Per-Class Performance Breakdown</h1>
+  <p>
+    The table below details all 47 categories, their real dataset row counts, domain, assigned severity, and exact empirical <strong>Precision, Recall, and F1-score</strong> on the held-out 14,633 unseen test split:
+  </p>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 22%;">Category Key</th>
+        <th style="width: 22%;">Display Name</th>
+        <th style="width: 8%;">Domain</th>
+        <th style="width: 8%;">Severity</th>
+        <th style="width: 8%;">Test Prec</th>
+        <th style="width: 8%;">Test Rec</th>
+        <th style="width: 8%;">Test F1</th>
+        <th style="width: 16%;">Operational Meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- TOP TIER 1.00 - 0.95 -->
+      <tr><td><code>homicide</code></td><td>Homicide & Murder</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>1.00</td><td>1.00</td><td><strong>1.00</strong></td><td>Killing of a person</td></tr>
+      <tr><td><code>robbery</code></td><td>Robbery & Armed Snatching</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.99</td><td>1.00</td><td><strong>1.00</strong></td><td>Taking property by armed force</td></tr>
+      <tr><td><code>kidnapping</code></td><td>Kidnapping & Abduction</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>1.00</td><td>1.00</td><td><strong>1.00</strong></td><td>Abducting/holding for ransom</td></tr>
+      <tr><td><code>motor_vehicle_theft</code></td><td>Motor Vehicle Theft</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-high">High</span></td><td>1.00</td><td>1.00</td><td><strong>1.00</strong></td><td>Stealing vehicles/motorbikes</td></tr>
+      <tr><td><code>honour_crimes_forced_marriage</code></td><td>Honour Crimes & Forced Marriage</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>1.00</td><td>1.00</td><td><strong>1.00</strong></td><td>Coercion over family honour/marriage</td></tr>
+      <tr><td><code>medical_fraud_malpractice</code></td><td>Medical Fraud & Malpractice</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-high">High</span></td><td>1.00</td><td>1.00</td><td><strong>1.00</strong></td><td>Fake doctors & fraudulent billing</td></tr>
+      <tr><td><code>mob_violence_lynching</code></td><td>Mob Violence & Lynching</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>1.00</td><td>1.00</td><td><strong>1.00</strong></td><td>Crowd vigilantism & mob assault</td></tr>
+      <tr><td><code>sexual_harassment</code></td><td>Physical Sexual Harassment</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-high">High</span></td><td>1.00</td><td>1.00</td><td><strong>1.00</strong></td><td>Sexual comments with no contact</td></tr>
+      <tr><td><code>sexual_assault</code></td><td>Sexual Assault & Rape</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.99</td><td>0.99</td><td><strong>0.99</strong></td><td>Sexual violence & coerced contact</td></tr>
+      <tr><td><code>intellectual_property_piracy</code></td><td>Digital IP & Piracy</td><td><span class="badge badge-cyber">Cyber</span></td><td><span class="badge badge-medium">Medium</span></td><td>0.99</td><td>0.99</td><td><strong>0.99</strong></td><td>Illegal software/media piracy</td></tr>
+      <tr><td><code>drug_offences</code></td><td>Narcotics & Drug Offences</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-high">High</span></td><td>0.94</td><td>0.99</td><td><strong>0.97</strong></td><td>Possessing/trafficking illegal drugs</td></tr>
+      <tr><td><code>illegal_gambling</code></td><td>Illegal Gambling</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-medium">Medium</span></td><td>0.92</td><td>1.00</td><td><strong>0.96</strong></td><td>Underground casinos & match-fixing</td></tr>
+
+      <!-- HIGH TIER 0.94 - 0.85 -->
+      <tr><td><code>theft</code></td><td>Theft & Pickpocketing</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-medium">Medium</span></td><td>1.00</td><td>0.86</td><td><strong>0.93</strong></td><td>Theft without forced premises entry</td></tr>
+      <tr><td><code>phishing_smishing</code></td><td>Phishing & Smishing</td><td><span class="badge badge-cyber">Cyber</span></td><td><span class="badge badge-high">High</span></td><td>0.97</td><td>0.89</td><td><strong>0.93</strong></td><td>Fake emails/SMS stealing passwords</td></tr>
+      <tr><td><code>animal_cruelty_environmental</code></td><td>Animal Cruelty & Environmental</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-medium">Medium</span></td><td>0.86</td><td>1.00</td><td><strong>0.92</strong></td><td>Animal abuse & illegal dumping</td></tr>
+      <tr><td><code>data_breach</code></td><td>Corporate Data Breach</td><td><span class="badge badge-cyber">Cyber</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.86</td><td>1.00</td><td><strong>0.92</strong></td><td>Exposed company databases</td></tr>
+      <tr><td><code>consumer_fraud_adulteration</code></td><td>Consumer Fraud & Adulteration</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-medium">Medium</span></td><td>0.82</td><td>1.00</td><td><strong>0.90</strong></td><td>Adulterated food & counterfeit goods</td></tr>
+      <tr><td><code>traffic_offence</code></td><td>Traffic Offences & Hit-and-Run</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-medium">Medium</span></td><td>0.82</td><td>1.00</td><td><strong>0.90</strong></td><td>Reckless/drunk driving & hit-and-run</td></tr>
+      <tr><td><code>domestic_violence_child_abuse</code></td><td>Domestic Violence & Abuse</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.87</td><td>0.90</td><td><strong>0.88</strong></td><td>Harm by family/partner/caregiver</td></tr>
+      <tr><td><code>cyberbullying_harassment</code></td><td>Cyberbullying & Harassment</td><td><span class="badge badge-cyber">Cyber</span></td><td><span class="badge badge-high">High</span></td><td>1.00</td><td>0.79</td><td><strong>0.88</strong></td><td>Online abuse, doxxing, deepfakes</td></tr>
+      <tr><td><code>insider_threat_trade_secret_theft</code></td><td>Insider Threat & Secret Theft</td><td><span class="badge badge-cyber">Cyber</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.76</td><td>1.00</td><td><strong>0.87</strong></td><td>Staff stealing proprietary code/data</td></tr>
+      <tr><td><code>perjury_obstruction_of_justice</code></td><td>Perjury & Evidence Tampering</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-medium">Medium</span></td><td>0.78</td><td>0.99</td><td><strong>0.87</strong></td><td>Lying in court & bribing witnesses</td></tr>
+      <tr><td><code>burglary</code></td><td>Burglary & House Breaking</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-high">High</span></td><td>0.74</td><td>1.00</td><td><strong>0.85</strong></td><td>Forcible premises entry to steal</td></tr>
+      <tr><td><code>terrorism_extremism</code></td><td>Terrorism & Extremism</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>1.00</td><td>0.74</td><td><strong>0.85</strong></td><td>Bomb plots & militant attacks</td></tr>
+
+      <!-- MODERATE TIER 0.84 - 0.70 -->
+      <tr><td><code>human_trafficking</code></td><td>Human Trafficking</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.99</td><td>0.73</td><td><strong>0.84</strong></td><td>Forced labor & selling people</td></tr>
+      <tr><td><code>non_crime</code></td><td>Non-Criminal Inquiries</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-medium">Low</span></td><td>0.81</td><td>0.84</td><td><strong>0.82</strong></td><td>Harmless queries & lost items</td></tr>
+      <tr><td><code>public_disorder_weapons</code></td><td>Public Disorder & Weapons</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.97</td><td>0.65</td><td><strong>0.78</strong></td><td>Street riots & illegal firearms</td></tr>
+      <tr><td><code>online_scam_fraud</code></td><td>Online Scam & Fraud</td><td><span class="badge badge-cyber">Cyber</span></td><td><span class="badge badge-medium">Medium</span></td><td>0.62</td><td>0.92</td><td><strong>0.74</strong></td><td>Fake online stores & romance scams</td></tr>
+      <tr><td><code>organized_crime_gang</code></td><td>Organized Gang Operations</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.62</td><td>0.89</td><td><strong>0.73</strong></td><td>Mafia syndicates & gang wars</td></tr>
+      <tr><td><code>online_banking_fraud</code></td><td>Online Banking & OTP Fraud</td><td><span class="badge badge-cyber">Cyber</span></td><td><span class="badge badge-high">High</span></td><td>0.63</td><td>0.81</td><td><strong>0.71</strong></td><td>SIM swap & OTP account theft</td></tr>
+      <tr><td><code>threats_stalking</code></td><td>Criminal Threats & Stalking</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-high">High</span></td><td>0.71</td><td>0.72</td><td><strong>0.71</strong></td><td>Surveillance & menacing threats</td></tr>
+      <tr><td><code>smuggling_contraband</code></td><td>Smuggling & Contraband</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-high">High</span></td><td>0.67</td><td>0.73</td><td><strong>0.70</strong></td><td>Customs evasion & border smuggling</td></tr>
+
+      <!-- LOWER TIER (< 0.70) -->
+      <tr><td><code>identity_theft</code></td><td>Identity Theft</td><td><span class="badge badge-cyber">Cyber</span></td><td><span class="badge badge-high">High</span></td><td>0.48</td><td>0.99</td><td><strong>0.65</strong></td><td>Using victim identity for loans</td></tr>
+      <tr><td><code>electoral_fraud</code></td><td>Electoral Fraud</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-medium">Medium</span></td><td>1.00</td><td>0.49</td><td><strong>0.65</strong></td><td>Ballot stuffing & vote buying</td></tr>
+      <tr><td><code>trespass_land_grab</code></td><td>Land Grabbing & Trespass</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-high">High</span></td><td>0.99</td><td>0.47</td><td><strong>0.64</strong></td><td>Illegal squatting & land encroachment</td></tr>
+      <tr><td><code>embezzlement_corruption</code></td><td>Embezzlement & Bribery</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-high">High</span></td><td>0.68</td><td>0.57</td><td><strong>0.62</strong></td><td>Misusing funds & government bribes</td></tr>
+      <tr><td><code>extortion_blackmail</code></td><td>Physical Extortion</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.78</td><td>0.51</td><td><strong>0.62</strong></td><td>Demanding protection bhatta</td></tr>
+      <tr><td><code>online_extortion_sextortion</code></td><td>Online Sextortion</td><td><span class="badge badge-cyber">Cyber</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.66</td><td>0.56</td><td><strong>0.61</strong></td><td>Threatening private media leaks</td></tr>
+      <tr><td><code>hate_crime</code></td><td>Hate Crime</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.69</td><td>0.46</td><td><strong>0.55</strong></td><td>Targeted demographic attacks</td></tr>
+      <tr><td><code>ransomware_malware</code></td><td>Ransomware & Malware</td><td><span class="badge badge-cyber">Cyber</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.47</td><td>0.64</td><td><strong>0.54</strong></td><td>System encryption trojans</td></tr>
+      <tr><td><code>assault_battery</code></td><td>Assault & Battery</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.37</td><td>0.94</td><td><strong>0.53</strong></td><td>Non-household violent battery</td></tr>
+      <tr><td><code>arson_vandalism</code></td><td>Arson & Vandalism</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-high">High</span></td><td>0.68</td><td>0.44</td><td><strong>0.53</strong></td><td>Deliberate building fires</td></tr>
+      <tr><td><code>financial_fraud_forgery</code></td><td>Financial Fraud & Forgery</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-high">High</span></td><td>0.45</td><td>0.60</td><td><strong>0.51</strong></td><td>Forged documents & bad checks</td></tr>
+      <tr><td><code>cryptocurrency_crime</code></td><td>Cryptocurrency Fraud</td><td><span class="badge badge-cyber">Cyber</span></td><td><span class="badge badge-medium">Medium</span></td><td>1.00</td><td>0.30</td><td><strong>0.46</strong></td><td>Smart contract drains & crypto scams</td></tr>
+      <tr><td><code>other_crime</code></td><td>Other Miscellaneous Crimes</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-medium">Medium</span></td><td>0.43</td><td>0.34</td><td><strong>0.38</strong></td><td>Unclassified penal code offences</td></tr>
+      <tr><td><code>unauthorized_access_hacking</code></td><td>Unauthorized Hacking</td><td><span class="badge badge-cyber">Cyber</span></td><td><span class="badge badge-critical">Critical</span></td><td>0.20</td><td>0.54</td><td><strong>0.29</strong></td><td>Breaching credentials/accounts</td></tr>
+      <tr><td><code>exam_cheating_academic_fraud</code></td><td>Academic Exam Cheating</td><td><span class="badge badge-physical">Physical</span></td><td><span class="badge badge-medium">Medium</span></td><td>0.40</td><td>0.01</td><td><strong>0.02</strong></td><td>Exam leaks & paper tampering</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4.2 Top Confusion Analysis (True vs. Predicted)</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 35%;">True Label</th>
+        <th style="width: 35%;">Predicted Misclassification</th>
+        <th style="width: 15%;">Error Count</th>
+        <th style="width: 15%;">Root Semantic Overlap</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>embezzlement_corruption</code></td><td><code>financial_fraud_forgery</code></td><td>217</td><td>Both involve document manipulation to steal funds</td></tr>
+      <tr><td><code>arson_vandalism</code></td><td><code>assault_battery</code></td><td>176</td><td>Molotov cocktails and physical violent attacks</td></tr>
+      <tr><td><code>arson_vandalism</code></td><td><code>financial_fraud_forgery</code></td><td>147</td><td>Insurance fraud arson plots</td></tr>
+      <tr><td><code>trespass_land_grab</code></td><td><code>organized_crime_gang</code></td><td>130</td><td>Armed land mafias taking commercial plots</td></tr>
+      <tr><td><code>hate_crime</code></td><td><code>arson_vandalism</code></td><td>126</td><td>Vandalism of religious structures</td></tr>
+      <tr><td><code>electoral_fraud</code></td><td><code>threats_stalking</code></td><td>124</td><td>Voter intimidation by armed political workers</td></tr>
+      <tr><td><code>financial_fraud_forgery</code></td><td><code>identity_theft</code></td><td>117</td><td>Opening fake bank accounts with stolen IDs</td></tr>
+      <tr><td><code>exam_cheating_academic_fraud</code></td><td><code>unauthorized_access_hacking</code></td><td>113</td><td>Hacking into school servers to alter exam grades</td></tr>
+      <tr><td><code>cryptocurrency_crime</code></td><td><code>embezzlement_corruption</code></td><td>105</td><td>Corporate treasuries drained via crypto</td></tr>
+      <tr><td><code>ransomware_malware</code></td><td><code>unauthorized_access_hacking</code></td><td>69</td><td>Ransomware requiring initial remote credential access</td></tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <!-- SECTION 5: NORMALIZER & FULL STACK ARCHITECTURE -->
+  <h1>5. Multilingual Normalizer & Production Architecture</h1>
+
+  <h2>5.1 Pre-Classification Normalizer (Groq / Gemini)</h2>
+  <p>
+    Citizen complaints are frequently submitted in Roman Urdu, Hindi, or conversational shorthand. The microservice automatically passes raw text through <code>normalizer.py</code> before tokenization:
+  </p>
+  <div class="callout">
+    <div class="callout-title">Production Normalization Example</div>
+    <strong>Citizen Input:</strong> <code>"Meri motorcycle ghar k bahir se 2 bandon ne pistol dikha kar cheen li aur mobile bhi le gaye."</code><br>
+    <strong>LLM Normalized:</strong> <code>"Two armed individuals intercepted me outside my house, brandished a pistol, and forcibly stole my motorcycle and mobile phone."</code><br>
+    <strong>Predicted Output:</strong> <code>Robbery & Armed Snatching</code> (Confidence: 99.1%, Severity: Critical, Urgency: true)
+  </div>
+
+  <h2>5.2 Three-Tier Architecture & Deployment Stack</h2>
+  <ul>
+    <li><strong>FastAPI Microservice (Port 8000):</strong> PyTorch 2.4, Transformers 4.49, DeBERTa-v3 inference engine running under PM2 daemon.</li>
+    <li><strong>Express Backend (Port 5000):</strong> Node.js MVCS architecture, Sequelize ORM, Zod validation, JWT authentication with pessimistic database row locks on refresh tokens.</li>
+    <li><strong>MySQL 8.4 Database:</strong> Hosted on AWS EC2, configured with B-Tree unique indices on <code>tracking_id</code> and strict foreign keys.</li>
+    <li><strong>Reverse Proxy & Security:</strong> Nginx with Let's Encrypt TLSv1.3 SSL, rate-limiting, and CORS reflection on <code>https://vigilex.duckdns.org</code>.</li>
+  </ul>
+
+  <h2>5.3 Role-Based Access Control (RBAC) Data Isolation Matrix</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 35%;">Action / Endpoint</th>
+        <th style="width: 20%;">Citizen (Public)</th>
+        <th style="width: 20%;">Field Officer</th>
+        <th style="width: 25%;">Super Administrator</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Submit Crime Report (<code>POST /reports</code>)</td><td><span class="badge badge-critical">Allowed (5/hr)</span></td><td>Allowed</td><td>Allowed</td></tr>
+      <tr><td>Track Incident Status (<code>GET /reports/track/:id</code>)</td><td><span class="badge badge-critical">Allowed (30/15m)</span></td><td>Allowed</td><td>Allowed</td></tr>
+      <tr><td>View Triage Queue (<code>GET /admin/reports</code>)</td><td>Forbidden</td><td><span class="badge badge-high">Scoped to Own Tasks</span></td><td><span class="badge badge-cyber">Full Access (All Reports)</span></td></tr>
+      <tr><td>Reassign Officer (<code>PATCH /admin/reports/:id</code>)</td><td>Forbidden</td><td>Forbidden (403)</td><td><span class="badge badge-cyber">Full Access</span></td></tr>
+      <tr><td>Append Investigation Notes</td><td>Forbidden</td><td><span class="badge badge-high">Assigned Cases Only</span></td><td>Full Access</td></tr>
+      <tr><td>Create Police Officers (<code>POST /admin/officers</code>)</td><td>Forbidden</td><td>Forbidden (403)</td><td><span class="badge badge-cyber">Full Access</span></td></tr>
+      <tr><td>City-Wide Crime Analytics (<code>GET /admin/stats</code>)</td><td>Forbidden</td><td>Forbidden (403)</td><td><span class="badge badge-cyber">Full Access</span></td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top: 40px; border-top: 1px solid #cbd5e1; padding-top: 16px; font-size: 8.5pt; color: #64748b; text-align: center;">
+    <strong>Vigilex AI Project Engineering Team</strong> &bull; Advanced Agentic Coding &bull; October 2026<br>
+    Certified Benchmark Specification &copy; All Rights Reserved.
+  </div>
+
+</div>
+
+</body>
+</html>
